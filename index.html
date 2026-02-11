@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="bo">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Soul Day</title>
+
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-small.png">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#8B1A10">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Soul Day">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root { 
+            --main-red: #8B1A10; 
+            --gold: #E5C366; 
+            --bg: #FDFBF7; 
+        }
+        
+        * {
+            -webkit-user-select: none !important;
+            user-select: none !important;
+            -webkit-touch-callout: none !important;
+            box-sizing: border-box;
+        }
+
+        @font-face {
+            font-family: 'TibetanCustom';
+            src: url('TibetWildYak.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        .font-tibetan { 
+            font-family: 'TibetanCustom', 'Tibetan', 'Kailasa', 'Microsoft Himalaya', serif; 
+            line-height: 1.2; 
+        }
+        
+        body, html { 
+            background-color: #8B1A10; 
+            margin: 0; padding: 0;
+            height: 100%; width: 100%;
+            overflow: hidden; 
+        }
+
+        .page-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100dvh;
+            background-color: var(--bg);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .safe-top-padding {
+            padding-top: env(safe-area-inset-top, 20px);
+        }
+
+        .app-card { 
+            background: white; 
+            border-radius: 1.2rem; 
+            box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.05); 
+            border: 1px solid rgba(0,0,0,0.03); 
+            width: 100%;
+        }
+
+        .red-gradient { 
+            background: linear-gradient(135deg, #8B1A10 0%, #5E110A 100%); 
+            position: relative;
+        }
+
+        @keyframes pure-breath {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+        .animate-breath { animation: pure-breath 2.5s infinite ease-in-out; }
+
+        @keyframes dynamic-scale {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+        .animate-dynamic { animation: dynamic-scale 2s infinite ease-in-out; display: inline-block; }
+
+        @keyframes finger-poke {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.1); }
+        }
+        @keyframes back-arrow-bounce {
+            0%, 100% { transform: translateX(0); opacity: 1; }
+            50% { transform: translateX(-8px); opacity: 0.7; }
+        }
+
+        .click-guide-ring {
+            position: relative;
+            width: 24px;
+            height: 24px;
+            background: #8B1A10;
+            border-radius: 50%;
+            margin-right: 12px;
+        }
+        .click-guide-ring::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border: 2px solid #8B1A10;
+            border-radius: 50%;
+            animation: ring-pulse 1.5s infinite ease-out;
+        }
+        @keyframes ring-pulse {
+            0% { transform: scale(0.5); opacity: 1; }
+            100% { transform: scale(1.8); opacity: 0; }
+        }
+
+        .back-btn-vertical {
+            position: absolute;
+            top: env(safe-area-inset-top, 0px);
+            right: 0;
+            bottom: 0;
+            width: clamp(50px, 10vw, 80px); 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            cursor: pointer;
+            z-index: 250;
+        }
+
+        .back-arrow-icon { animation: back-arrow-bounce 0.8s infinite ease-in-out; }
+        .poke-finger {
+            font-size: clamp(1.5rem, 4vh, 3rem);
+            margin-top: 2px;
+            animation: finger-poke 0.8s infinite ease-in-out;
+        }
+
+        .zodiac-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); 
+            grid-template-rows: repeat(3, 1fr);
+            gap: 1.5vmin; 
+            flex: 1; 
+            width: 100%;
+            min-height: 0; 
+        }
+
+        .zodiac-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .zodiac-icon-box {
+            width: 100%; 
+            height: 70%; 
+            background: white; 
+            border-radius: 1.5vmin; 
+            position: relative;
+            border: 1px solid #f1f5f9;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+        }
+        
+        /* 按照实时要求：缩放改为 70% */
+        .zodiac-icon-box img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70%; 
+            height: 70%;
+            object-fit: contain;
+        }
+
+        .zodiac-item span { 
+            font-size: 2.4vmin; 
+            margin-top: 0.5vh; 
+            white-space: nowrap; 
+            font-weight: bold;
+            color: #475569;
+        }
+
+        .full-overlay { 
+            display: none; 
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 100;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            flex-direction: column;
+            height: 100dvh;
+        }
+        
+        .full-overlay.show { display: flex; opacity: 1; transform: translateX(0); }
+
+        .results-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 1.5vh 4%;
+            padding-bottom: calc(1vh + env(safe-area-inset-bottom, 15px));
+            gap: 1.2vh;
+            justify-content: space-between; 
+            min-height: 0;
+        }
+
+        .result-card {
+            flex: 1; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 1vh !important;
+            min-height: 0;
+        }
+
+        .next-btn {
+            background: #E5C366; color: #8B1A10;
+            width: 100%; max-width: 500px;
+            align-self: center; padding: 1.5vh 20px;
+            border-radius: 12px; font-weight: bold;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .hint-box {
+            background: #8B1A10; color: #E5C366;
+            border-radius: 8px; text-align: center;
+            display: flex; align-items: center; justify-content: center;
+            padding: 1vh; width: 100%;
+            min-height: 3.5rem; flex-shrink: 1;
+        }
+
+        .disclaimer-box {
+            width: 100%;
+            text-align: center;
+            padding: 0; 
+            background: transparent; 
+            border: none; 
+            flex-shrink: 0;
+            margin-top: auto; 
+            margin-bottom: env(safe-area-inset-bottom, 2px); 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 0;
+            overflow: hidden;
+        }
+
+        .disclaimer-line { 
+            font-size: clamp(8px, 1.2vh, 11px); 
+            font-weight: 600; 
+            color: #8B1A10; 
+            line-height: 1.3;
+            white-space: nowrap; 
+            opacity: 0.8;
+        }
+        .copyright-line { 
+            font-size: clamp(7px, 1.1vh, 10px); 
+            color: #94a3b8; 
+            margin-top: 0px;
+            white-space: nowrap; 
+        }
+
+        @media (orientation: landscape) {
+            header, .red-gradient.shrink-0 { height: 10vh !important; min-height: 50px !important; }
+            .zodiac-grid { gap: 0.8vmin; }
+            .zodiac-icon-box { height: 65%; }
+            .results-container { padding-bottom: 5px !important; }
+            .disclaimer-box { margin-bottom: 2px; }
+            .disclaimer-line { font-size: 1.2vh; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="starfield" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50;"></canvas>
+
+    <div class="page-container" id="main-page">
+        <header class="w-full relative flex items-center justify-center px-[4%] shrink-0 red-gradient rounded-b-[1rem] shadow-md h-[15vh] safe-top-padding">
+            <div class="flex flex-col justify-center items-center">
+                <p class="font-tibetan text-[#E5C366] font-black text-[clamp(1.2rem,4.5vmin,2.2rem)]">བོད་ཀྱི་སྐར་རྩིས་རིག་པའི་ཤེས་བྱ།</p>
+                <p class="text-white/90 font-bold text-[clamp(0.8rem,2.8vmin,1.3rem)]">西藏天文历算知识</p>
+            </div>
+            <img src="logo.png" class="absolute right-[4%] w-[60px] h-[40px] object-contain rounded-lg">
+        </header>
+
+        <main class="flex-1 flex flex-col px-[4%] pt-[1vh] pb-[0.5vh] overflow-hidden">
+            <section class="app-card border-t-4 border-[#8B1A10] p-[1vh] shrink-0 flex flex-col justify-center h-[10vh] mb-[1vh]">
+                <div class="flex justify-between items-center border-b border-slate-50"> 
+                    <span class="font-bold text-slate-500 font-tibetan text-[1.8vmin]">དེ་རིང་། 今日</span>
+                    <div id="full-date" class="font-black font-mono text-[#8B1A10] text-[2.2vh]">0000.00.00</div>
+                </div>
+                <div class="flex justify-between items-center"> 
+                    <p id="tb-day" class="text-[#8B1A10] font-bold font-tibetan text-[2.8vh]">...</p>
+                    <p id="cn-day" class="text-sky-400 font-black text-[2.8vh]">...</p>
+                </div>
+            </section>
+
+            <section class="app-card flex-1 p-[1.5vh] text-center border-t-4 border-[#8B1A10] flex flex-col min-h-0">
+                <div class="mb-[1vh] shrink-0">
+                    <p class="font-bold text-slate-800 font-tibetan text-[2.5vmin]">རང་གི་ལོ་རྟགས་ལ་མནན་ན་བླ་གཟའ་སོགས་གཟིགས་ཐུབ།</p>
+                    <p class="font-black text-[#8B1A10] uppercase text-[1.8vmin]">请点击您的属相查看相关星耀</p>
+                </div>
+                
+                <div class="zodiac-grid" id="zodiac-btns"></div>
+                
+                <div class="disclaimer-box">
+                    <p class="disclaimer-line">藏族传统文化学习工具：内容基于藏历文献整理，仅供参考。</p>
+                    <p class="disclaimer-line">此工具不作为任何决策依据，请理性使用，相信科学。</p>
+                    <p class="copyright-line">© ༢༠༢༦ ཁམས་པ་ཚང་། KHAM PA TSANG</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="astro-page" class="full-overlay">
+        <div class="red-gradient h-[15vh] flex items-center justify-center shrink-0 safe-top-padding">
+            <div class="back-btn-vertical" onclick="backToHome()">
+                <div class="back-arrow-icon">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 19L8 12L15 5" stroke="#E5C366" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <span class="poke-finger">👆</span>
+            </div>
+            <div class="flex items-center gap-4 pr-10 animate-breath"> 
+                <div id="astro-banner-img" class="h-[10vh] w-[10vh] flex items-center justify-center"></div> 
+                <h3 id="astro-banner-name-tb" class="font-bold font-tibetan text-[#E5C366] text-[4vh]"></h3>
+            </div>
+        </div>
+        <div class="results-container">
+            <div id="results" class="flex flex-col gap-[1.2vh] flex-1 min-h-0"></div>
+            <button class="next-btn" onclick="showBirthPage()">
+                <div class="click-guide-ring"></div>
+                <div class="flex flex-col items-center">
+                    <span class="font-tibetan text-[2.4vh]">སོ་སོའི་འཁྲུངས་ལོ་ལ་གཟིགས།</span>
+                    <span class="text-[1.6vh] opacity-80 uppercase">查看您的出生年份</span>
+                </div>
+            </button>
+        </div>
+    </div>
+
+    <div id="birth-year-page" class="full-overlay">
+        <div class="red-gradient h-[16vh] flex flex-col items-center justify-center shrink-0 safe-top-padding relative">
+            <div class="back-btn-vertical" onclick="backToHome()">
+                <div class="back-arrow-icon">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 19L8 12L15 5" stroke="#E5C366" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <span class="poke-finger">👆</span>
+            </div>
+
+            <div class="flex items-center justify-center gap-3 animate-breath">
+                <div id="birth-banner-img" class="h-[10vh] w-[10vh] flex items-center justify-center"></div> 
+                <h4 id="birth-banner-name-tb" class="font-bold font-tibetan text-[#E5C366] text-[4vh]"></h4>
+            </div>
+        </div>
+
+        <div class="w-full bg-[#8B1A10] py-2 shadow-inner shrink-0">
+            <p class="text-white text-[1.8vh] font-bold font-tibetan text-center">འཁྲུངས་ལོ། 出生年份</p>
+        </div>
+
+        <div id="birth-years-grid" class="grid grid-cols-4 grid-rows-3 gap-[1.8vmin] flex-1 p-[4%] pt-2 pb-[calc(4% + env(safe-area-inset-bottom, 10px))]"></div>
+    </div>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js');
+        }
+
+        const WEEKDAYS_TB = ["གཟའ་ཉི་མ།", "གཟའ་ཟླ་བ།", "གཟའ་མིག་དམར།", "གཟའ་ལྷག་པ།", "གཟའ་ཕུར་བུ།", "གཟའ་པ་སངས།", "གཟའ་སྤེན་པ།"];
+        const WEEKDAYS_CN = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+        const ZODIAC_CN = ["鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪"];
+        const ZODIAC_TB = ["བྱི་བ།", "གླང་།", "སྟག", "ཡོས།", "འབྲུག", "སྦྲུལ།", "རྟ།", "ལུག", "སྤྲེལ།", "བྱ།", "ཁྱི།", "ཕག"];
+        const ELEMENTS_TB = ["ལྕགས།", "ལྕགས།", "ཆུ།", "ཆུ།", "ཤིང་།", "ཤིང་།", "མེ།", "མེ།", "ས།", "ས།"];
+        const ASTRO_MAP = { "鼠": [2, 3, 6], "猪": [2, 3, 6], "虎": [6, 4, 5], "兔": [6, 4, 5], "蛇": [5, 2, 3], "马": [5, 2, 3], "猴": [4, 5, 2], "鸡": [4, 5, 2], "牛": [3, 6, 4], "狗": [3, 1, 4], "羊": [1, 5, 4], "龙": [3, 0, 4] };
+        const APPLE_ICONS = { "生耀": "❤️", "圣耀": "🌟", "克耀": "⚠️" };
+        let currentIdx = 0;
+
+        function initStars() {
+            const canvas = document.getElementById('starfield');
+            const ctx = canvas.getContext('2d');
+            let stars = [];
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+            for (let i = 0; i < 80; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 1.5,
+                    opacity: Math.random(),
+                    speed: 0.01 + Math.random() * 0.02
+                });
+            }
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                stars.forEach(star => {
+                    ctx.fillStyle = `rgba(229, 195, 102, ${star.opacity})`;
+                    ctx.beginPath();
+                    ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    star.opacity += star.speed;
+                    if (star.opacity > 1 || star.opacity < 0) star.speed = -star.speed;
+                });
+                requestAnimationFrame(draw);
+            }
+            draw();
+        }
+
+        function initZodiacBtns() {
+            const grid = document.getElementById('zodiac-btns');
+            grid.innerHTML = ZODIAC_CN.map((animal, i) => `
+                <div class="zodiac-item cursor-pointer" onclick="showAstroPage('${animal}', ${i})">
+                    <div class="zodiac-icon-box">
+                        <img src="${i + 1}.png" alt="${animal}">
+                    </div>
+                    <span class="font-tibetan">${ZODIAC_TB[i]}</span>
+                </div>
+            `).join('');
+        }
+
+        function backToHome() {
+            document.querySelectorAll('.full-overlay').forEach(p => {
+                p.classList.remove('show');
+                setTimeout(() => p.style.display = 'none', 400);
+            });
+        }
+
+        function showAstroPage(animal, idx) {
+            currentIdx = idx;
+            const content = document.getElementById('astro-page');
+            document.getElementById('astro-banner-img').innerHTML = `<img src="${idx + 1}.png" class="h-full w-auto object-contain">`;
+            document.getElementById('astro-banner-name-tb').innerText = ZODIAC_TB[idx];
+            
+            const vals = ASTRO_MAP[animal];
+            const todayIdx = new Date().getDay();
+            
+            document.getElementById('results').innerHTML = [
+                { type: '生耀', tb: 'སྲོག་གཟའ།', val: vals[0], hint: 'དེ་རིང་སྲོག་གཟའ་འཁེལ་བས་རྣམ་དཀར་དགེ་ལས་ལ་བཟང་གསུངས།' },
+                { type: '圣耀', tb: 'བླ་གཟའ།', val: vals[1], hint: 'དེ་རིང་བླ་གཟའ་འཁེལ་བས་བྱ་ལས་གང་ཡང་འགྲུབ་པར་གསུངས།' },
+                { type: '克耀', tb: 'གཤེད་གཟའ།', val: vals[2], hint: 'དེ་རིང་གཤེད་གཟའ་འཁེལ་བས་ལས་དོན་བཤོལ་ན་ལེགས་གསུངས།' }
+            ].map(item => {
+                const isActive = todayIdx === item.val;
+                return `
+                    <div class="app-card result-card ${isActive ? 'border-[#8B1A10] bg-amber-50' : 'border-slate-50'}">
+                        <div class="flex justify-around items-center">
+                            <div class="text-center">
+                                <h4 class="font-tibetan font-bold ${isActive ? 'text-[#8B1A10] text-[2.8vh]' : 'text-slate-400 text-[2.2vh]'}">${item.tb}</h4>
+                                <p class="text-[1.3vh] font-black uppercase">${item.type}</p>
+                            </div>
+                            <div class="text-[5.5vh] ${isActive ? 'animate-dynamic' : 'opacity-10'}">${APPLE_ICONS[item.type]}</div>
+                            <div class="text-center">
+                                <span class="font-tibetan font-bold ${isActive ? 'text-[#8B1A10] text-[2.8vh]' : 'text-slate-400 text-[2.2vh]'}">${WEEKDAYS_TB[item.val].replace('གཟའ་', '')}</span>
+                                <p class="text-[1.3vh] font-black text-sky-400 uppercase">${WEEKDAYS_CN[item.val].replace('星期', '周')}</p>
+                            </div>
+                        </div>
+                        ${isActive ? `<div class="hint-box mt-2"><span class="font-tibetan font-bold text-[1.8vh]">${item.hint}</span></div>` : ''}
+                    </div>`;
+            }).join('');
+            
+            content.style.display = 'flex';
+            setTimeout(() => content.classList.add('show'), 10);
+        }
+
+        function showBirthPage() {
+            const page = document.getElementById('birth-year-page');
+            document.getElementById('birth-banner-img').innerHTML = `<img src="${currentIdx + 1}.png" class="h-full w-auto object-contain">`;
+            document.getElementById('birth-banner-name-tb').innerText = ZODIAC_TB[currentIdx];
+            
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            const baseYear = (now < (new Date(2026, 1, 17))) ? currentYear - 1 : currentYear;
+            
+            let yearsHtml = "";
+            let count = 0;
+            for (let y = baseYear; count < 12; y--) { 
+                const zIdx = (y - 4) % 12;
+                if ((zIdx < 0 ? zIdx + 12 : zIdx) === currentIdx) {
+                    yearsHtml += `
+                        <div class="year-chip bg-white border border-slate-100 rounded-xl flex flex-col items-center justify-center shadow-sm p-2">
+                            <span class="text-[#8B1A10] font-black text-[2.2vh] my-0.5">${y}</span>
+                            <span class="font-tibetan text-sky-500 font-bold text-[1.8vh] my-0.5">ལོ། ${baseYear - y + 1}</span>
+                            <span class="font-tibetan text-[#8B1A10] text-[1.5vh] my-0.5">${ELEMENTS_TB[y % 10]}</span>
+                        </div>`;
+                    count++;
+                }
+            }
+            document.getElementById('birth-years-grid').innerHTML = yearsHtml;
+            page.style.display = 'flex';
+            setTimeout(() => page.classList.add('show'), 10);
+        }
+
+        window.onload = () => {
+            const now = new Date();
+            document.getElementById('full-date').innerText = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')}`;
+            document.getElementById('tb-day').innerText = WEEKDAYS_TB[now.getDay()];
+            document.getElementById('cn-day').innerText = WEEKDAYS_CN[now.getDay()];
+            initZodiacBtns();
+            initStars();
+        };
+    </script>
+</body>
+</html>
