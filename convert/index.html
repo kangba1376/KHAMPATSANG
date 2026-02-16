@@ -1,54 +1,112 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="bo">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>藏文编码大师 - 康巴仓</title>
+    <title>ཁམས་པ་ཚང་བོད་ཡིག་ཨང་བསྒྱུར།</title>
     <style>
-        :root { --藏袍红: #8b0000; --哈达白: #fdfaf2; --酥油金: #d4af37; }
-        body { font-family: "Microsoft Himalaya", sans-serif; background: var(--哈达白); margin: 0; padding: 15px; }
-        .容器 { width: 100%; max-width: 800px; margin: 0 auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 8px solid var(--藏袍红); }
-        h2 { color: var(--藏袍红); text-align: center; font-size: 24px; border-bottom: 2px solid var(--酥油金); padding-bottom: 10px; }
-        .状态 { text-align: center; color: #666; font-size: 14px; margin-bottom: 15px; background: #eee; padding: 5px; border-radius: 5px; }
-        textarea { width: 100%; height: 200px; border: 2px solid #eee; border-radius: 10px; padding: 15px; font-size: 22px; box-sizing: border-box; line-height: 1.6; outline: none; }
-        .按钮区 { text-align: center; margin: 25px 0; }
-        button { background: var(--藏袍红); color: white; border: none; padding: 16px 60px; font-size: 20px; border-radius: 50px; cursor: pointer; font-weight: bold; }
+        @font-face {
+            font-family: 'TibetWildYak';
+            src: url('TibetWildYak.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        :root { --main-red: #8b0000; --white: #fdfaf2; --gold: #d4af37; }
+        
+        body { 
+            font-family: 'TibetWildYak', "Microsoft Himalaya", sans-serif; 
+            background: var(--white); 
+            margin: 0; 
+            padding: 15px; 
+        }
+        
+        .container { width: 100%; max-width: 800px; margin: 0 auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 8px solid var(--main-red); direction: ltr; text-align: left; }
+        h2 { color: var(--main-red); text-align: center; font-size: 32px; border-bottom: 2px solid var(--gold); padding-bottom: 10px; font-weight: normal; }
+        .status { text-align: center; color: #666; font-size: 18px; margin-bottom: 15px; background: #eee; padding: 8px; border-radius: 5px; }
+        
+        textarea { 
+            width: 100%; 
+            height: 200px; 
+            border: 2px solid #eee; 
+            border-radius: 10px; 
+            padding: 15px; 
+            font-size: 26px; 
+            box-sizing: border-box; 
+            line-height: 1.6; 
+            outline: none; 
+            font-family: 'TibetWildYak', "Microsoft Himalaya", sans-serif; 
+        }
+        
+        .btn-box { text-align: center; margin: 25px 0; }
+        button { 
+            background: var(--main-red); 
+            color: white; 
+            border: none; 
+            padding: 16px 60px; 
+            font-size: 24px; 
+            border-radius: 50px; 
+            cursor: pointer; 
+            font-family: 'TibetWildYak', sans-serif; 
+            box-shadow: 0 4px 15px rgba(139,0,0,0.3); 
+        }
+        button:hover { background: #a00000; }
+        b { display: block; margin: 10px 0; color: var(--main-red); font-size: 20px; font-weight: normal; }
     </style>
 </head>
 <body>
-<div class="容器">
-    <h2>ཁམས་པ་ཚང་། 藏文九合一转码 (喜马拉雅标准)</h2>
-    <div id="status" class="状态">正在同步映射数据库...</div>
-    <b>第一步：粘贴旧编码文本（BZD, DL, FZ等）</b>
-    <textarea id="input"></textarea>
-    <div class="按钮区"><button onclick="执行转换()">一键转为喜马拉雅码</button></div>
-    <b>第二步：喜马拉雅标准编码结果</b>
+<div class="container">
+    <h2>ཁམས་པ་ཚང་བོད་ཡིག་ཨང་བསྒྱུར།</h2>
+    <div id="status" class="status">ཨང་བསྒྱུར་ཞུ་བཞིན་པ་ཡིན།...</div>
+    
+    <textarea id="input" placeholder="པཎྜི་ཏ་སོགས་འདི་ན་འཇུག་དགོས།..."></textarea>
+    
+    <div class="btn-box">
+        <button onclick="doConvert()">ཧི་གཟུགས་སུ་བསྒྱུར།</button>
+    </div>
+    
+    <b>ཧི་གཟུགས་འོག་ནས་བཤུ་རོགས།(Unicode)</b>
     <textarea id="output" readonly></textarea>
 </div>
+
 <script>
-    let 映射表 = new Map();
-    async function 初始化() {
+    const mappingTable = new Map();
+
+    async function init() {
+        const statusDiv = document.getElementById('status');
         try {
-            const 响应 = await fetch('tibet_master_map.json');
-            const 数据 = await 响应.json();
-            ["BZD", "DL", "FZ", "HG", "HKA", "JM", "PX", "SAM", "TY"].forEach(字库 => {
-                if(数据[字库]) {
-                    数据[字库].split('ᔘ').forEach(对 => {
-                        const 部分 = 对.split('ᔜ');
-                        if (部分.length === 2) 映射表.set(部分[0], 部分[1]);
+            const response = await fetch('tibet_master_map.json');
+            const data = await response.json();
+            const fonts = ["BZD", "DL", "FZ", "HG", "HKA", "JM", "PX", "SAM", "TY"];
+            fonts.forEach(f => {
+                if(data[f]) {
+                    const pairs = data[f].split('ᔘ');
+                    pairs.forEach(p => {
+                        const parts = p.split('ᔜ');
+                        if (parts.length === 2) {
+                            mappingTable.set(parts[0], parts[1]);
+                        }
                     });
                 }
             });
-            document.getElementById('status').innerText = "✅ 映射库加载成功，共 " + 映射表.size + " 条";
-        } catch (e) { document.getElementById('status').innerText = "❌ 加载失败，请确保 json 已上传"; }
+            statusDiv.style.color = "green";
+            statusDiv.innerText = "✅ གནས་ཚུལ་གྲ་སྒྲིག་ཟིན་པ་དང་། ཡིག་འབྲུ་ " + mappingTable.size + " ལེགས་གྲུབ་བྱུང་།";
+        } catch (e) {
+            statusDiv.style.color = "red";
+            statusDiv.innerText = "❌ ནོར་འཁྲུལ་བྱུང་བས་ JSON ཡིག་ཆ་ཡོད་མེད་བརྟག་རོགས།";
+        }
     }
-    function 执行转换() {
-        const 输入 = document.getElementById('input').value;
-        let 结果 = "";
-        for (let 字符 of 输入) { 结果 += 映射表.get(字符) || 字符; }
-        document.getElementById('output').value = 结果;
+
+    function doConvert() {
+        const inputVal = document.getElementById('input').value;
+        if (!inputVal) return;
+        let result = "";
+        for (let char of inputVal) {
+            result += mappingTable.has(char) ? mappingTable.get(char) : char;
+        }
+        document.getElementById('output').value = result;
     }
-    初始化();
+    init();
 </script>
 </body>
 </html>
