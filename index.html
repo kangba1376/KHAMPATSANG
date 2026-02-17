@@ -21,63 +21,52 @@
     <h2>ཁམས་པ་ཚང་བོད་ཡིག་ཨང་བསྒྱུར།</h2>
     <div id="status" class="status">Loading...</div>
     <textarea id="input" placeholder="པཎྜི་ཏ་སོགས་འདི་ན་འཇུག་དགོས།..."></textarea>
-    <div class="btn-box"><button onclick="doConvert()">ཧི་གཟུགས་སུ་བསྒྱུར།</button></div>
+    <div class="btn-box"><button onclick="执行转换()">ཧི་གཟུགས་སུ་བསྒྱུར།</button></div>
     <b>ཧི་གཟུགས་འོག་ནས་བཤུ་རོགས།(Unicode)</b>
     <textarea id="output" readonly></textarea>
 </div>
 
 <script>
-    const mappingTable = new Map();
-    let maxKeyLen = 1;
+    let 映射表 = new Map();
 
-    async function init() {
+    async function 初始化() {
         try {
-            // 加上时间戳强制刷新，防止 GitHub 缓存旧文件
-            const response = await fetch('tibet_master_map.json?v=' + Date.now());
-            const data = await response.json();
-            const keys = Object.keys(data);
-            
-            keys.forEach(k => {
-                data[k].split('֮').forEach(p => {
-                    const parts = p.split('֒');
-                    if (parts.length === 2) {
-                        mappingTable.set(parts[0], parts[1]);
-                        if (parts[0].length > maxKeyLen) maxKeyLen = parts[0].length;
-                    }
-                });
+            const 响应 = await fetch('tibet_master_map.json');
+            const 数据 = await 响应.json();
+
+            // 解析旧编码的不同字库，确保正确加载所有映射
+            ["BZD", "DL", "FZ", "HG", "HKA", "JM", "PX", "SAM", "TY"].forEach(字库 => {
+                if (数据[字库]) {
+                    数据[字库].split('ᔘ').forEach(对 => {
+                        const 部分 = 对.split('ᔜ');
+                        if (部分.length === 2) {
+                            映射表.set(部分[0], 部分[1]);
+                        }
+                    });
+                }
             });
-            document.getElementById('status').innerText = "✅ 就绪: " + mappingTable.size;
+            document.getElementById('status').innerText = "✅ 映射库加载成功，共 " + 映射表.size + " 条";
         } catch (e) {
-            document.getElementById('status').innerText = "❌ 加载失败";
+            document.getElementById('status').innerText = "❌ 加载失败，请确保 json 已上传";
         }
     }
 
-    function doConvert() {
-        const inputVal = document.getElementById('input').value;
-        if (!inputVal) return;
-        
-        let result = "";
-        let i = 0;
-        // 核心：强制从长到短匹配组合编码
-        while (i < inputVal.length) {
-            let matched = false;
-            for (let len = Math.min(maxKeyLen, inputVal.length - i); len >= 1; len--) {
-                let sub = inputVal.substring(i, i + len);
-                if (mappingTable.has(sub)) {
-                    result += mappingTable.get(sub);
-                    i += len;
-                    matched = true;
-                    break;
-                }
-            }
-            if (!matched) {
-                result += inputVal[i];
-                i++;
-            }
+    // 执行转换
+    function 执行转换() {
+        const 输入 = document.getElementById('input').value;
+        let 结果 = "";
+
+        // 遍历输入字符进行转换
+        for (let 字符 of 输入) {
+            // 查找映射，如果没有映射则保留原字符
+            结果 += 映射表.get(字符) || 字符;
         }
-        document.getElementById('output').value = result;
+
+        document.getElementById('output').value = 结果;
     }
-    init();
+
+    初始化();
 </script>
+
 </body>
 </html>
