@@ -27,8 +27,8 @@
             margin-top: 0; font-weight: normal; 
         }
         .status { 
-            text-align: center; color: green; font-size: 18px; margin-bottom: 15px; 
-            background: #eee; padding: 10px; border-radius: 5px; font-weight: bold;
+            text-align: center; color: #666; font-size: 18px; margin-bottom: 15px; 
+            background: #eee; padding: 10px; border-radius: 5px; 
         }
         textarea { 
             width: 100%; height: 200px; border: 2px solid #eee; border-radius: 10px; 
@@ -48,7 +48,7 @@
 <body>
 <div class="container">
     <h2>ཁམས་པ་ཚང་བོད་ཡིག་ཨང་བསྒྱུར།</h2>
-    <div id="status" class="status">✅ གནས་ཚུལ་གྲ་སྒྲིག་ཟིན་པ་དང་། ཡིག་འབྲུ་ 13533 ལེགས་གྲུབ་བྱུང་།</div>
+    <div id="status" class="status">Loading...</div>
     <textarea id="input" placeholder="པཎྜི་ཏ་སོགས་འདི་ན་འཇུག་དགོས།..."></textarea>
     <div class="btn-box">
         <button onclick="doConvert()">ཧི་གཟུགས་སུ་བསྒྱུར།</button>
@@ -58,57 +58,69 @@
 </div>
 
 <script>
-    // 强制内嵌 13533 条规则，彻底解决加载失败问题
     const mappingTable = new Map();
     let maxKeyLen = 1;
 
-    // 此函数直接从您的本地脚本逻辑中提取
-    function loadEmbeddedData() {
-        const rawData = `...`; // 这里在实际执行时会通过代码合并技术填入您的 13533 条规则
-        // 核心：直接使用硬编码规则，不再 fetch
-        // (为了保持代码简洁，我会让网页在启动时直接处于就绪状态)
+    async function init() {
+        const statusDiv = document.getElementById('status');
+        try {
+            const response = await fetch('tibet_master_map.json');
+            const data = await response.json();
+            const fonts = ["BZD", "DL", "FZ", "HG", "HKA", "JM", "PX", "SAM", "TY"];
+            const rowSep = '֮'; const colSep = '֒'; 
+
+            fonts.forEach(f => {
+                if(data[f]) {
+                    data[f].split(rowSep).forEach(p => {
+                        const parts = p.split(colSep);
+                        if (parts.length === 2) {
+                            mappingTable.set(parts[0], parts[1]);
+                            // 记录最长编码的长度
+                            if (parts[0].length > maxKeyLen) maxKeyLen = parts[0].length;
+                        }
+                    });
+                }
+            });
+            if (mappingTable.size > 0) {
+                statusDiv.style.color = "green";
+                statusDiv.innerHTML = "✅ གནས་ཚུལ་གྲ་སྒྲིག་ཟིན་པ་དང་། ཡིག་འབྲུ་ " + mappingTable.size + " ལེགས་གྲུབ་བྱུང་།";
+            }
+        } catch (e) {
+            statusDiv.style.color = "red";
+            statusDiv.innerText = "❌ ནོར་འཁྲུལ་བྱུང་བས་ JSON ཡིག་ཆ་ཡོད་མེད་བརྟག་རོགས།";
+        }
     }
 
-    // 重新设计的转换引擎：支持班智达长字符匹配
-    async function doConvert() {
+    // 升级版转换函数：采用最大长度匹配算法
+    function doConvert() {
         const inputVal = document.getElementById('input').value;
-        const statusDiv = document.getElementById('status');
+        if (!inputVal || mappingTable.size === 0) return;
         
-        // 第一次点击时自动静默加载数据（确保 100% 成功）
-        if (mappingTable.size === 0) {
-            try {
-                const res = await fetch('tibet_master_map.json');
-                const data = await res.json();
-                const fonts = ["BZD", "DL", "FZ", "HG", "HKA", "JM", "PX", "SAM", "TY"];
-                fonts.forEach(f => {
-                    if(data[f]) {
-                        data[f].split('֮').forEach(p => {
-                            const parts = p.split('֒');
-                            if (parts.length === 2) {
-                                mappingTable.set(parts[0], parts[1]);
-                                if (parts[0].length > maxKeyLen) maxKeyLen = parts[0].length;
-                            }
-                        });
-                    }
-                });
-            } catch (e) {
-                console.error("Data error");
-            }
-        }
-
-        let result = ""; let i = 0;
+        let result = "";
+        let i = 0;
+        
         while (i < inputVal.length) {
             let matched = false;
+            // 从当前位置开始，尝试匹配最长的可能编码
             for (let len = Math.min(maxKeyLen, inputVal.length - i); len >= 1; len--) {
                 let sub = inputVal.substring(i, i + len);
                 if (mappingTable.has(sub)) {
-                    result += mappingTable.get(sub); i += len; matched = true; break;
+                    result += mappingTable.get(sub);
+                    i += len;
+                    matched = true;
+                    break;
                 }
             }
-            if (!matched) { result += inputVal[i]; i++; }
+            // 如果所有长度都没匹配到，保留原字符（比如空格或标点）
+            if (!matched) {
+                result += inputVal[i];
+                i++;
+            }
         }
         document.getElementById('output').value = result;
     }
+
+    window.onload = init;
 </script>
 </body>
 </html>
