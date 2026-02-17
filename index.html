@@ -78,11 +78,13 @@
             const response = await fetch('tibet_master_map.json');
             const data = await response.json();
             const fonts = ["BZD", "DL", "FZ", "HG", "HKA", "JM", "PX", "SAM", "TY"];
+            
             fonts.forEach(f => {
                 if(data[f]) {
-                    const pairs = data[f].split('ᔘ');
+                    // 使用正确的藏文分隔符 ֮ 和 ֒
+                    const pairs = data[f].split('֮');
                     pairs.forEach(p => {
-                        const parts = p.split('ᔜ');
+                        const parts = p.split('֒');
                         if (parts.length === 2) {
                             mappingTable.set(parts[0], parts[1]);
                         }
