@@ -71,7 +71,6 @@
 
 <script>
     const mappingTable = new Map();
-    // 记录映射表中键的最大长度，用于优化匹配逻辑
     let maxKeyLen = 1;
 
     async function init() {
@@ -81,11 +80,15 @@
             const data = await response.json();
             const fonts = ["BZD", "DL", "FZ", "HG", "HKA", "JM", "PX", "SAM", "TY"];
             
+            // 使用十六进制编码确保分隔符 100% 匹配
+            const rowSep = "\u06DE"; // ֮
+            const colSep = "\u0612"; // ֒
+
             fonts.forEach(f => {
                 if(data[f]) {
-                    const pairs = data[f].split('֮');
+                    const pairs = data[f].split(rowSep);
                     pairs.forEach(p => {
-                        const parts = p.split('֒');
+                        const parts = p.split(colSep);
                         if (parts.length === 2) {
                             mappingTable.set(parts[0], parts[1]);
                             if (parts[0].length > maxKeyLen) maxKeyLen = parts[0].length;
@@ -103,14 +106,13 @@
 
     function doConvert() {
         const inputVal = document.getElementById('input').value;
-        if (!inputVal) return;
+        if (!inputVal || mappingTable.size === 0) return;
         let result = "";
         let i = 0;
         
-        // 使用“长字符优先”逻辑，解决班智达组合编码无法转换的问题
         while (i < inputVal.length) {
             let matched = false;
-            for (let len = maxKeyLen; len >= 1; len--) {
+            for (let len = Math.min(maxKeyLen, inputVal.length - i); len >= 1; len--) {
                 let sub = inputVal.substring(i, i + len);
                 if (mappingTable.has(sub)) {
                     result += mappingTable.get(sub);
