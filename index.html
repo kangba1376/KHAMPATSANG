@@ -1,114 +1,147 @@
 <!DOCTYPE html>
 <html lang="bo">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ཁམས་པ་ཚང་བོད་ཡིག་ཨང་བསྒྱུར།</title>
-    <style>
-        @font-face {
-            font-family: 'TibetWildYak';
-            src: url('TibetWildYak.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ཁམས་པ་ཚང་བོད་ཡིག་ཨང་བསྒྱུར།</title>
+    <style>
+        @font-face {
+            font-family: 'TibetWildYak';
+            src: url('TibetWildYak.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
 
-        :root { --main-red: #8b0000; --white: #fdfaf2; --gold: #d4af37; }
-        
-        body { 
-            font-family: 'TibetWildYak', "Microsoft Himalaya", sans-serif; 
-            background: var(--white); 
-            margin: 0; 
-            padding: 15px; 
-        }
-        
-        .container { width: 100%; max-width: 800px; margin: 0 auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 8px solid var(--main-red); direction: ltr; text-align: left; }
-        h2 { color: var(--main-red); text-align: center; font-size: 32px; border-bottom: 2px solid var(--gold); padding-bottom: 10px; font-weight: normal; }
-        .status { text-align: center; color: #666; font-size: 18px; margin-bottom: 15px; background: #eee; padding: 8px; border-radius: 5px; }
-        
-        textarea { 
-            width: 100%; 
-            height: 200px; 
-            border: 2px solid #eee; 
-            border-radius: 10px; 
-            padding: 15px; 
-            font-size: 26px; 
-            box-sizing: border-box; 
-            line-height: 1.6; 
-            outline: none; 
-            font-family: 'TibetWildYak', "Microsoft Himalaya", sans-serif; 
-        }
-        
-        .btn-box { text-align: center; margin: 25px 0; }
-        button { 
-            background: var(--main-red); 
-            color: white; 
-            border: none; 
-            padding: 16px 60px; 
-            font-size: 24px; 
-            border-radius: 50px; 
-            cursor: pointer; 
-            font-family: 'TibetWildYak', sans-serif; 
-            box-shadow: 0 4px 15px rgba(139,0,0,0.3); 
-        }
-        button:hover { background: #a00000; }
-        b { display: block; margin: 10px 0; color: var(--main-red); font-size: 20px; font-weight: normal; }
-    </style>
+        :root { --main-red: #8b0000; --white: #fdfaf2; --gold: #d4af37; }
+        
+        body { 
+            font-family: 'TibetWildYak', "Microsoft Himalaya", sans-serif; 
+            background: var(--white); 
+            margin: 0; 
+            padding: 15px; 
+        }
+        
+        .container { width: 100%; max-width: 800px; margin: 0 auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 8px solid var(--main-red); direction: ltr; text-align: left; }
+        h2 { color: var(--main-red); text-align: center; font-size: 32px; border-bottom: 2px solid var(--gold); padding-bottom: 10px; font-weight: normal; }
+        .status { text-align: center; color: #666; font-size: 18px; margin-bottom: 15px; background: #eee; padding: 8px; border-radius: 5px; }
+        
+        textarea { 
+            width: 100%; 
+            height: 200px; 
+            border: 2px solid #eee; 
+            border-radius: 10px; 
+            padding: 15px; 
+            font-size: 26px; 
+            box-sizing: border-box; 
+            line-height: 1.6; 
+            outline: none; 
+            font-family: 'TibetWildYak', "Microsoft Himalaya", sans-serif; 
+        }
+        
+        .btn-box { text-align: center; margin: 25px 0; }
+        button { 
+            background: var(--main-red); 
+            color: white; 
+            border: none; 
+            padding: 16px 60px; 
+            font-size: 24px; 
+            border-radius: 50px; 
+            cursor: pointer; 
+            font-family: 'TibetWildYak', sans-serif; 
+            box-shadow: 0 4px 15px rgba(139,0,0,0.3); 
+        }
+        button:hover { background: #a00000; }
+        b { display: block; margin: 10px 0; color: var(--main-red); font-size: 20px; font-weight: normal; }
+    </style>
 </head>
 <body>
 <div class="container">
-    <h2>ཁམས་པ་ཚང་བོད་ཡིག་ཨང་བསྒྱུར།</h2>
-    <div id="status" class="status">ཨང་བསྒྱུར་ཞུ་བཞིན་པ་ཡིན།...</div>
-    
-    <textarea id="input" placeholder="པཎྜི་ཏ་སོགས་འདི་ན་འཇུག་དགོས།..."></textarea>
-    
-    <div class="btn-box">
-        <button onclick="doConvert()">ཧི་གཟུགས་སུ་བསྒྱུར།</button>
-    </div>
-    
-    <b>ཧི་གཟུགས་འོག་ནས་བཤུ་རོགས།(Unicode)</b>
-    <textarea id="output" readonly></textarea>
+    <h2>ཁམས་པ་ཚང་བོད་ཡིག་ཨང་བསྒྱུར།</h2>
+    <div id="status" class="status">ཨང་བསྒྱུར་ཞུ་བཞིན་པ་ཡིན།...</div>
+    
+    <textarea id="input" placeholder="པཎྜི་ཏ་སོགས་འདི་ན་འཇུག་དགོས།..."></textarea>
+    
+    <div class="btn-box">
+        <button onclick="doConvert()">ཧི་གཟུགས་སུ་བསྒྱུར།</button>
+    </div>
+    
+    <b>ཧི་གཟུགས་འོག་ནས་བཤུ་རོགས།(Unicode)</b>
+    <textarea id="output" readonly></textarea>
 </div>
 
 <script>
-    const mappingTable = new Map();
+    const mappingTable = new Map();
+    let maxKeyLen = 1;
 
-    async function init() {
-        const statusDiv = document.getElementById('status');
-        try {
-            const response = await fetch('tibet_master_map.json');
-            const data = await response.json();
-            const fonts = ["BZD", "DL", "FZ", "HG", "HKA", "JM", "PX", "SAM", "TY"];
-            
-            fonts.forEach(f => {
-                if(data[f]) {
-                    // 使用正确的藏文分隔符 ֮ 和 ֒
-                    const pairs = data[f].split('֮');
-                    pairs.forEach(p => {
-                        const parts = p.split('֒');
-                        if (parts.length === 2) {
-                            mappingTable.set(parts[0], parts[1]);
-                        }
-                    });
-                }
-            });
-            statusDiv.style.color = "green";
-            statusDiv.innerText = "✅ གནས་ཚུལ་གྲ་སྒྲིག་ཟིན་པ་དང་། ཡིག་འབྲུ་ " + mappingTable.size + " ལེགས་གྲུབ་བྱུང་།";
-        } catch (e) {
-            statusDiv.style.color = "red";
-            statusDiv.innerText = "❌ ནོར་འཁྲུལ་བྱུང་བས་ JSON ཡིག་ཆ་ཡོད་མེད་བརྟག་རོགས།";
-        }
-    }
+    async function init() {
+        const statusDiv = document.getElementById('status');
+        try {
+            // 明确指定使用 UTF-8 读取 JSON
+            const response = await fetch('tibet_master_map.json');
+            const data = await response.json();
+            const fonts = ["BZD", "DL", "FZ", "HG", "HKA", "JM", "PX", "SAM", "TY"];
+            
+            // 直接使用原始藏文分隔符，这是最稳妥的
+            const rowSep = '֮'; 
+            const colSep = '֒'; 
 
-    function doConvert() {
-        const inputVal = document.getElementById('input').value;
-        if (!inputVal) return;
-        let result = "";
-        for (let char of inputVal) {
-            result += mappingTable.has(char) ? mappingTable.get(char) : char;
-        }
-        document.getElementById('output').value = result;
-    }
-    init();
+            fonts.forEach(f => {
+                if(data[f]) {
+                    const pairs = data[f].split(rowSep);
+                    pairs.forEach(p => {
+                        const parts = p.split(colSep);
+                        if (parts.length === 2) {
+                            mappingTable.set(parts[0], parts[1]);
+                            if (parts[0].length > maxKeyLen) maxKeyLen = parts[0].length;
+                        }
+                    });
+                }
+            });
+
+            if (mappingTable.size > 0) {
+                statusDiv.style.color = "green";
+                statusDiv.innerText = "✅ གནས་ཚུལ་གྲ་སྒྲིག་ཟིན་པ་དང་། ཡིག་འབྲུ་ " + mappingTable.size + " ལེགས་གྲུབ་བྱུང་།";
+            } else {
+                throw new Error("Data empty");
+            }
+        } catch (e) {
+            statusDiv.style.color = "red";
+            statusDiv.innerText = "❌ ནོར་འཁྲུལ་བྱུང་བས་ JSON ཡིག་ཆ་ཡོད་མེད་བརྟག་རོགས།";
+        }
+    }
+
+    function doConvert() {
+        const inputArea = document.getElementById('input');
+        const outputArea = document.getElementById('output');
+        const inputVal = inputArea.value;
+        
+        if (!inputVal || mappingTable.size === 0) return;
+        
+        let result = "";
+        let i = 0;
+        
+        // 核心转换逻辑：长字符优先匹配，解决班智达多字母组合问题
+        while (i < inputVal.length) {
+            let matched = false;
+            for (let len = Math.min(maxKeyLen, inputVal.length - i); len >= 1; len--) {
+                let sub = inputVal.substring(i, i + len);
+                if (mappingTable.has(sub)) {
+                    result += mappingTable.get(sub);
+                    i += len;
+                    matched = true;
+                    break;
+                }
+            }
+            if (!matched) {
+                result += inputVal[i];
+                i++;
+            }
+        }
+        outputArea.value = result;
+    }
+    
+    // 页面加载完成后立即执行初始化
+    window.onload = init;
 </script>
 </body>
 </html>
