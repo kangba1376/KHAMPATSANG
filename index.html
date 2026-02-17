@@ -19,11 +19,41 @@
             background: var(--white); 
             margin: 0; 
             padding: 15px; 
+            display: flex;
+            justify-content: center;
         }
         
-        .container { width: 100%; max-width: 800px; margin: 0 auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 8px solid var(--main-red); direction: ltr; text-align: left; }
-        h2 { color: var(--main-red); text-align: center; font-size: 32px; border-bottom: 2px solid var(--gold); padding-bottom: 10px; font-weight: normal; }
-        .status { text-align: center; color: #666; font-size: 18px; margin-bottom: 15px; background: #eee; padding: 8px; border-radius: 5px; }
+        .container { 
+            width: 100%; 
+            max-width: 800px; 
+            background: white; 
+            padding: 25px; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            border-top: 8px solid var(--main-red); 
+            text-align: left; 
+        }
+        
+        h2 { 
+            color: var(--main-red); 
+            text-align: center; 
+            font-size: 32px; 
+            border-bottom: 2px solid var(--gold); 
+            padding-bottom: 10px; 
+            margin-top: 0;
+            font-weight: normal; 
+        }
+        
+        .status { 
+            text-align: center; 
+            color: #666; 
+            font-size: 18px; 
+            margin-bottom: 15px; 
+            background: #eee; 
+            padding: 10px; 
+            border-radius: 5px; 
+            font-family: 'TibetWildYak', sans-serif;
+        }
         
         textarea { 
             width: 100%; 
@@ -36,9 +66,11 @@
             line-height: 1.6; 
             outline: none; 
             font-family: 'TibetWildYak', "Microsoft Himalaya", sans-serif; 
+            resize: vertical;
         }
         
         .btn-box { text-align: center; margin: 25px 0; }
+        
         button { 
             background: var(--main-red); 
             color: white; 
@@ -49,9 +81,19 @@
             cursor: pointer; 
             font-family: 'TibetWildYak', sans-serif; 
             box-shadow: 0 4px 15px rgba(139,0,0,0.3); 
+            transition: 0.3s;
         }
-        button:hover { background: #a00000; }
-        b { display: block; margin: 10px 0; color: var(--main-red); font-size: 20px; font-weight: normal; }
+        
+        button:hover { background: #a00000; transform: scale(1.05); }
+        
+        b { 
+            display: block; 
+            margin: 10px 0; 
+            color: var(--main-red); 
+            font-size: 20px; 
+            font-weight: normal; 
+            font-family: 'TibetWildYak', sans-serif;
+        }
     </style>
 </head>
 <body>
@@ -76,12 +118,12 @@
     async function init() {
         const statusDiv = document.getElementById('status');
         try {
-            // 明确指定使用 UTF-8 读取 JSON
             const response = await fetch('tibet_master_map.json');
+            if (!response.ok) throw new Error("File not found");
             const data = await response.json();
             const fonts = ["BZD", "DL", "FZ", "HG", "HKA", "JM", "PX", "SAM", "TY"];
             
-            // 直接使用原始藏文分隔符，这是最稳妥的
+            // 严格匹配你数据库中的藏文分隔符
             const rowSep = '֮'; 
             const colSep = '֒'; 
 
@@ -101,8 +143,6 @@
             if (mappingTable.size > 0) {
                 statusDiv.style.color = "green";
                 statusDiv.innerText = "✅ གནས་ཚུལ་གྲ་སྒྲིག་ཟིན་པ་དང་། ཡིག་འབྲུ་ " + mappingTable.size + " ལེགས་གྲུབ་བྱུང་།";
-            } else {
-                throw new Error("Data empty");
             }
         } catch (e) {
             statusDiv.style.color = "red";
@@ -111,16 +151,13 @@
     }
 
     function doConvert() {
-        const inputArea = document.getElementById('input');
-        const outputArea = document.getElementById('output');
-        const inputVal = inputArea.value;
-        
+        const inputVal = document.getElementById('input').value;
         if (!inputVal || mappingTable.size === 0) return;
         
         let result = "";
         let i = 0;
         
-        // 核心转换逻辑：长字符优先匹配，解决班智达多字母组合问题
+        // 核心转换逻辑：长字符优先匹配，确保班智达组合码能正确转换
         while (i < inputVal.length) {
             let matched = false;
             for (let len = Math.min(maxKeyLen, inputVal.length - i); len >= 1; len--) {
@@ -137,11 +174,10 @@
                 i++;
             }
         }
-        outputArea.value = result;
+        document.getElementById('output').value = result;
     }
     
-    // 页面加载完成后立即执行初始化
-    window.onload = init;
+    init();
 </script>
 </body>
 </html>
