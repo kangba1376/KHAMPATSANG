@@ -121,29 +121,47 @@
 
 <script>
     let bzdToUniMap = new Map();
+    let cp936ToUniMap = new Map();
 
-    // 1. 直接读取二进制 .tbl 文件
-    async function loadTbl() {
+    // 1. 加载所有必要的表
+    async function init() {
         try {
-            const response = await fetch('Bzd2Uni.tbl');
-            const arrayBuffer = await response.arrayBuffer();
-            const view = new DataView(arrayBuffer);
+            // 加载 CP936 表：把“笆耙”乱码转回原始二进制码
+            const cp936Res = await fetch('CP936toUnicodeTable.TXT');
+            const cp936Text = await cp936Res.text();
+            cp936Text.split('\n').forEach(line => {
+                const parts = line.split('\t');
+                if (parts.length >= 2) {
+                    // Map: 汉字Unicode -> 原始GBK/CP936码
+                    cp936ToUniMap.set(parseInt(parts[1], 16), parseInt(parts[0], 16));
+                }
+            });
 
-            // 假设 .tbl 结构是：2字节班智达码 -> 2字节Unicode码
-            // 我们从头读到尾，每4个字节是一组映射
-            for (let i = 0; i < view.byteLength; i += 4) {
-                let bzd = view.getUint16(i, true);    // 小端字节序读取
-                let uni = view.getUint16(i + 2, true);
-                bzdToUniMap.set(bzd, uni);
-            }
-            console.log("TBL 码表直读成功，共加载映射：" + bzdToUniMap.size);
+            // 加载 TBL 表：班智达转 Unicode (按照 UTFC 源码逻辑解析)
+            const tblRes = await fetch('Bzd2Uni.tbl');
+            const arrayBuffer = await tblRes.arrayBuffer();
+            const view = new DataView(arrayBuffer);
+            // 注意：TBL 是文本形式的数字对应，还是二进制？
+            // 根据 snippet，它是文本形式的空格分隔。我们按文本读取：
+            const decoder = new TextDecoder();
+            const tblText = decoder.decode(arrayBuffer);
+            const tblLines = tblText.split('\n');
+            tblLines.forEach(line => {
+                const parts = line.trim().split(/\s+/);
+                if (parts.length >= 2) {
+                    // key 是班智达码，value 是喜马拉雅 Unicode 序列
+                    bzdToUniMap.set(parts[0], parts.slice(1).map(v => String.fromCharCode(parseInt(v))));
+                }
+            });
+
+            console.log("专业级映射表加载完成！");
         } catch (err) {
-            console.error("TBL 加载失败:", err);
+            console.error("加载资源失败:", err);
+            alert("加载码表失败，请检查文件是否存在！");
         }
     }
 
-    // 初始化加载
-    loadTbl();
+    init();
 
     function convert(direction) {
         let input = document.getElementById('inputArea').value;
@@ -151,22 +169,31 @@
 
         if (direction === 'toUni') {
             for (let i = 0; i < input.length; i++) {
-                let code = input.charCodeAt(i);
-                
-                // 核心逻辑：自动尝试多种可能的编码映射
-                // 1. 直接匹配
-                // 2. 移除私有区偏移 (0xF000) 后匹配
-                let realBzd = code >= 0xF000 ? (code - 0xF000) : code;
+                let charCode = input.charCodeAt(i);
+                let rawCode;
 
-                if (bzdToUniMap.has(realBzd)) {
-                    output += String.fromCharCode(bzdToUniMap.get(realBzd));
+                // 第一步：如果字符在汉字区，先通过 CP936 还原成原始编码
+                if (cp936ToUniMap.has(charCode)) {
+                    rawCode = cp936ToUniMap.get(charCode);
                 } else {
-                    // 如果找不到，尝试保留原样（处理空格、标点等）
-                    output += input[i];
+                    rawCode = charCode;
+                }
+
+                // 第二步：拿着原始编码查班智达 TBL 表
+                let rawCodeStr = rawCode.toString();
+                let altCodeStr = (rawCode >= 0xF000) ? (rawCode - 0xF000).toString() : rawCode.toString();
+
+                let result = bzdToUniMap.get(rawCodeStr) || bzdToUniMap.get(altCodeStr);
+
+                if (result) {
+                    output += result.join('');
+                } else {
+                    output += input[i]; // 没匹配到（如空格、回车）则保留原样
                 }
             }
         } else {
-            output = "反向转换正在根据 TBL 逻辑优化中...";
+            // 反向转换逻辑
+            output = "反向转换正在根据反向映射表生成中...";
         }
         document.getElementById('outputArea').value = output;
     }
