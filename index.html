@@ -5,67 +5,199 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ཁམས་པ་ཚང་བོད་ཡིག་ཨང་བསྒྱུར།</title>
     <style>
-        @font-face { font-family: 'TibetWildYak'; src: url('TibetWildYak.ttf') format('truetype'); }
-        :root { --main-red: #8b0000; --white: #fdfaf2; }
-        body { font-family: 'TibetWildYak', serif; background: var(--white); display: flex; justify-content: center; padding: 15px; }
-        .container { width: 100%; max-width: 800px; background: white; padding: 25px; border-radius: 15px; border-top: 8px solid var(--main-red); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        h2 { color: var(--main-red); text-align: center; border-bottom: 2px solid #d4af37; padding-bottom: 10px; }
-        .status { text-align: center; color: #666; background: #eee; padding: 10px; border-radius: 5px; margin-bottom: 15px; }
-        textarea { width: 100%; height: 200px; border: 2px solid #eee; border-radius: 10px; padding: 15px; font-size: 26px; font-family: 'TibetWildYak', sans-serif; box-sizing: border-box; }
-        .btn-box { text-align: center; margin: 25px 0; }
-        button { background: var(--main-red); color: white; border: none; padding: 16px 60px; font-size: 24px; border-radius: 50px; cursor: pointer; font-family: 'TibetWildYak'; }
+        /* 引入你的 TibetWildYak 字体 */
+        @font-face {
+            font-family: 'TibetWildYak';
+            src: url('TibetWildYak.ttf') format('truetype');
+            font-display: swap;
+        }
+
+        body { 
+            font-family: 'TibetWildYak', 'Microsoft YaHei', sans-serif; 
+            padding: 20px; 
+            background: #f0f2f5; 
+            color: #1a1a1a; 
+        }
+
+        .container { 
+            max-width: 900px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 30px; 
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08); 
+            text-align: center;
+        }
+
+        /* Logo 样式 */
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        /* 标题颜色：深红色 */
+        h2 { 
+            color: #8B0000; 
+            margin-bottom: 25px; 
+            font-weight: 600; 
+            font-size: 32px; 
+            font-family: 'TibetWildYak', serif;
+        }
+
+        /* 标签颜色：深红色 */
+        .section-label { 
+            text-align: left;
+            font-size: 16px; 
+            color: #8B0000; 
+            margin-bottom: 8px; 
+            font-weight: bold; 
+        }
+
+        /* 输入框和结果框：文字保持黑色，方便阅读 */
+        textarea { 
+            width: 100%; 
+            height: 200px; 
+            margin-bottom: 20px; 
+            padding: 15px; 
+            font-size: 26px; 
+            line-height: 1.8;
+            border: 1px solid #d2d2d7; 
+            border-radius: 8px; 
+            resize: vertical; 
+            box-sizing: border-box; 
+            font-family: 'TibetWildYak', serif;
+            background-color: #fafafa;
+            color: #1a1a1a; /* 黑色文字 */
+        }
+
+        textarea:focus { 
+            outline: none; 
+            border-color: #8B0000; /* 焦点框也改为深红 */
+            box-shadow: 0 0 0 4px rgba(139, 0, 0, 0.1); 
+            background-color: #fff;
+        }
+
+        .btns { 
+            display: flex; 
+            gap: 15px; 
+            margin-bottom: 25px; 
+        }
+
+        /* 按钮样式：背景深红，文字白色（或者你希望按钮文字也是深红？） */
+        /* 这里设定为按钮背景深红，保持醒目 */
+        button { 
+            flex: 1; 
+            padding: 16px; 
+            background: #8B0000; 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-size: 20px; 
+            font-weight: 500; 
+            transition: all 0.2s; 
+            font-family: 'TibetWildYak', sans-serif;
+        }
+
+        button:hover { 
+            background: #a00000; 
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* 状态提示颜色：初始也是深红 */
+        #status { 
+            font-size: 14px; 
+            color: #8B0000; 
+            margin-bottom: 15px; 
+            font-family: 'TibetWildYak', sans-serif;
+        }
     </style>
 </head>
 <body>
+
 <div class="container">
+    <img src="logo.png" alt="KhamPaTsang Logo" class="logo" onerror="this.style.display='none'">
+    
     <h2>ཁམས་པ་ཚང་བོད་ཡིག་ཨང་བསྒྱུར།</h2>
-    <div id="status" class="status">Loading...</div>
-    <textarea id="input" placeholder="པཎྜི་ཏ་སོགས་འདི་ན་འཇུག་དགོས།..."></textarea>
-    <div class="btn-box"><button onclick="执行转换()">ཧི་གཟུགས་སུ་བསྒྱུར།</button></div>
-    <b>ཧི་གཟུགས་འོག་ནས་བཤུ་རོགས།(Unicode)</b>
-    <textarea id="output" readonly></textarea>
+    <div id="status">ཨང་བསྒྱུར་དྲྭ་མིག་ཁ་སྣོན་བཟོ་བཞིན་པ་ཡིན།...</div>
+    
+    <div class="section-label">ནང་དོན་འགོད་ཁུལ། (པཎྜི་ཏ། ཡང་ན། ཧི་མ་ལ་ཡ།)</div>
+    <textarea id="inputArea" placeholder="ཨང་བསྒྱུར་དགོས་པའི་ནང་དོན་འདི་ན་འགོད་རོགས།..."></textarea>
+    
+    <div class="btns">
+        <button onclick="convert('toUni')">པཎྜི་ཏ། → ཧི་མ་ལ་ཡ།</button>
+        <button onclick="convert('toBzd')">ཧི་མ་ལ་ཡ། → པཎྜི་ཏ།</button>
+    </div>
+    
+    <div class="section-label">ཨང་བསྒྱུར་མཇུག་འབྲས།</div>
+    <textarea id="outputArea" readonly placeholder="ཨང་བསྒྱུར་ཚར་བའི་ནང་དོན་འདི་ན་འཆར་འོང་།..."></textarea>
 </div>
 
 <script>
-    let 映射表 = new Map();
+    let bandridaMap = {};
+    let reverseMap = {};
 
-    async function 初始化() {
-        try {
-            const 响应 = await fetch('tibet_master_map.json');
-            const 数据 = await 响应.json();
+    fetch('tibet_master_map.json')
+        .then(response => response.json())
+        .then(data => {
+            bandridaMap = data.Bandrida;
+            for (let bzdKey in bandridaMap) {
+                let uniVal = bandridaMap[bzdKey];
+                reverseMap[uniVal] = bzdKey;
+            }
+            document.getElementById('status').innerText = "✅ གྲ་སྒྲིག་ཚར་སོང་།";
+            // 加载成功后依然保持深红或改为更亮的红色
+            document.getElementById('status').style.color = "#8B0000"; 
+        })
+        .catch(err => {
+            document.getElementById('status').innerText = "❌ ཡིག་ཆ་ལེན་མ་ཐུབ། JSON ལ་གཟིགས་རོགས།";
+        });
 
-            // 解析旧编码的不同字库，确保正确加载所有映射
-            ["BZD", "DL", "FZ", "HG", "HKA", "JM", "PX", "SAM", "TY"].forEach(字库 => {
-                if (数据[字库]) {
-                    数据[字库].split('ᔘ').forEach(对 => {
-                        const 部分 = 对.split('ᔜ');
-                        if (部分.length === 2) {
-                            映射表.set(部分[0], 部分[1]);
-                        }
+    function convert(direction) {
+        let input = document.getElementById('inputArea').value;
+        let output = "";
+
+        if (direction === 'toUni') {
+            for (let i = 0; i < input.length; i++) {
+                let charCode = input.charCodeAt(i).toString();
+                if (bandridaMap[charCode]) {
+                    let codes = bandridaMap[charCode].split(' ');
+                    codes.forEach(c => {
+                        output += String.fromCharCode(parseInt(c));
                     });
+                } else {
+                    output += input[i];
                 }
-            });
-            document.getElementById('status').innerText = "✅ 映射库加载成功，共 " + 映射表.size + " 条";
-        } catch (e) {
-            document.getElementById('status').innerText = "❌ 加载失败，请确保 json 已上传";
+            }
+        } else {
+            let i = 0;
+            while (i < input.length) {
+                let matched = false;
+                for (let len = 4; len >= 1; len--) {
+                    let sub = input.substring(i, i + len);
+                    let subCodes = [];
+                    for(let j=0; j<sub.length; j++) {
+                        subCodes.push(sub.charCodeAt(j).toString());
+                    }
+                    let key = subCodes.join(' ');
+                    if (reverseMap[key]) {
+                        output += String.fromCharCode(parseInt(reverseMap[key]));
+                        i += len;
+                        matched = true;
+                        break;
+                    }
+                }
+                if (!matched) {
+                    output += input[i];
+                    i++;
+                }
+            }
         }
+        document.getElementById('outputArea').value = output;
     }
-
-    // 执行转换
-    function 执行转换() {
-        const 输入 = document.getElementById('input').value;
-        let 结果 = "";
-
-        // 遍历输入字符进行转换
-        for (let 字符 of 输入) {
-            // 查找映射，如果没有映射则保留原字符
-            结果 += 映射表.get(字符) || 字符;
-        }
-
-        document.getElementById('output').value = 结果;
-    }
-
-    初始化();
 </script>
 
 </body>
