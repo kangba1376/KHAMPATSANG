@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="bo">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ཁམས་པ་ཚང་བོད་ཡིག་ཨང་བསྒྱུར།</title>
+    <style>
+        @font-face {
+            font-family: 'TibetWildYak';
+            src: url('TibetWildYak.ttf') format('truetype');
+            font-display: swap;
+        }
+
+        body { 
+            font-family: 'TibetWildYak', 'Microsoft YaHei', sans-serif; 
+            padding: 20px; 
+            background: #f0f2f5; 
+            color: #1a1a1a; 
+        }
+
+        .container { 
+            max-width: 900px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 30px; 
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08); 
+            text-align: center;
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        h2 { 
+            color: #8B0000; 
+            margin-bottom: 25px; 
+            font-weight: 600; 
+            font-size: 32px; 
+            font-family: 'TibetWildYak', serif;
+        }
+
+        .section-label { 
+            text-align: left;
+            font-size: 16px; 
+            color: #8B0000; 
+            margin-bottom: 8px; 
+            font-weight: bold; 
+        }
+
+        textarea { 
+            width: 100%; 
+            height: 200px; 
+            margin-bottom: 20px; 
+            padding: 15px; 
+            font-size: 26px; 
+            line-height: 1.8;
+            border: 1px solid #d2d2d7; 
+            border-radius: 8px; 
+            resize: vertical; 
+            box-sizing: border-box; 
+            font-family: 'TibetWildYak', serif;
+            background-color: #fafafa;
+            color: #1a1a1a;
+        }
+
+        textarea:focus { 
+            outline: none; 
+            border-color: #8B0000; 
+            box-shadow: 0 0 0 4px rgba(139, 0, 0, 0.1); 
+            background-color: #fff;
+        }
+
+        .btns { 
+            display: flex; 
+            gap: 15px; 
+            margin-bottom: 25px; 
+        }
+
+        button { 
+            flex: 1; 
+            padding: 16px; 
+            background: #8B0000; 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-size: 20px; 
+            font-weight: 500; 
+            transition: all 0.2s; 
+            font-family: 'TibetWildYak', sans-serif;
+        }
+
+        button:hover { 
+            background: #a00000; 
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <img src="logo.png" alt="KhamPaTsang Logo" class="logo" onerror="this.style.display='none'">
+    <h2>ཁམས་པ་ཚང་བོད་ཡིག་ཨང་བསྒྱུར།</h2>
+    
+    <div class="section-label">ནང་དོན་འགོད་ཁུལ། (པཎྜི་ཏ། ཡང་ན། ཧི་མ་ལ་ཡ།)</div>
+    <textarea id="inputArea" placeholder="ཨང་བསྒྱུར་དགོས་པའི་ནང་དོན་འདི་ན་འགོད་རོགས།..."></textarea>
+    
+    <div class="btns">
+        <button onclick="convert('toUni')">པཎྜི་ཏ། → ཧི་མ་ལ་ཡ།</button>
+        <button onclick="convert('toBzd')">ཧི་མ་ལ་ཡ། → པཎྜི་ཏ།</button>
+    </div>
+    
+    <div class="section-label">ཨང་བསྒྱུར་མཇུག་འབྲས།</div>
+    <textarea id="outputArea" readonly placeholder="ཨང་བསྒྱུར་ཚར་བའི་ནང་དོན་འདི་ན་འཆར་འོང་།..."></textarea>
+</div>
+
+<script>
+    let bzdToUniMap = new Map();
+    let cp936Map = new Map();
+
+    async function initConverter() {
+        try {
+            // 1. 加载 CP936 表 (汉字Unicode -> 原始十六进制码)
+            const cpRes = await fetch('CP936toUnicodeTable.TXT');
+            const cpText = await cpRes.text();
+            cpText.split('\n').forEach(line => {
+                const parts = line.split('\t');
+                if (parts.length >= 2) {
+                    cp936Map.set(parseInt(parts[1], 16), parseInt(parts[0], 16));
+                }
+            });
+
+            // 2. 加载 TBL 表 (班智达原始码 -> 喜马拉雅编码序列)
+            const tblRes = await fetch('Bzd2Uni.tbl');
+            const tblText = await tblRes.text();
+            tblText.split('\n').forEach(line => {
+                const parts = line.trim().split(/\s+/);
+                if (parts.length >= 2) {
+                    const key = parts[0]; // 班智达原始码字符串
+                    const values = parts.slice(1).map(v => String.fromCharCode(parseInt(v)));
+                    bzdToUniMap.set(key, values.join(''));
+                }
+            });
+            console.log("康巴仓，所有码表已就绪！");
+        } catch (e) { console.error("初始化失败:", e); }
+    }
+
+    initConverter();
+
+    function convert(direction) {
+        const input = document.getElementById('inputArea').value;
+        let output = "";
+
+        if (direction === 'toUni') {
+            for (let i = 0; i < input.length; i++) {
+                let charCode = input.charCodeAt(i);
+                // 关键点：如果是汉字乱码，先还原成原始二进制码
+                let rawCode = cp936Map.has(charCode) ? cp936Map.get(charCode) : charCode;
+                
+                // 查找映射（支持原始码和偏移码两种尝试）
+                let result = bzdToUniMap.get(rawCode.toString()) || 
+                             bzdToUniMap.get((rawCode - 61440).toString());
+
+                output += result ? result : input[i];
+            }
+        }
+        document.getElementById('outputArea').value = output;
+    }
+</script>
+
+</body>
+</html>
