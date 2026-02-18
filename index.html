@@ -120,53 +120,45 @@
 </div>
 
 <script>
-    let bzdToUniMap = new Map();
+    let bzdMap = new Map();
     let cp936Map = new Map();
 
-    async function initConverter() {
+    async function init() {
         try {
-            // 1. 加载 CP936 表 (汉字Unicode -> 原始十六进制码)
-            const cpRes = await fetch('CP936toUnicodeTable.TXT');
+            // 必须确保这两个文件和 convert.html 在同一个 KHAMPATSANG 文件夹下
+            const [cpRes, tblRes] = await Promise.all([
+                fetch('CP936toUnicodeTable.TXT'),
+                fetch('Bzd2Uni.tbl')
+            ]);
+            
             const cpText = await cpRes.text();
-            cpText.split('\n').forEach(line => {
-                const parts = line.split('\t');
-                if (parts.length >= 2) {
-                    cp936Map.set(parseInt(parts[1], 16), parseInt(parts[0], 16));
-                }
+            cpText.split('\n').forEach(l => {
+                const p = l.split('\t');
+                if (p.length >= 2) cp936Map.set(parseInt(p[1], 16), parseInt(p[0], 16));
             });
 
-            // 2. 加载 TBL 表 (班智达原始码 -> 喜马拉雅编码序列)
-            const tblRes = await fetch('Bzd2Uni.tbl');
             const tblText = await tblRes.text();
-            tblText.split('\n').forEach(line => {
-                const parts = line.trim().split(/\s+/);
-                if (parts.length >= 2) {
-                    const key = parts[0]; // 班智达原始码字符串
-                    const values = parts.slice(1).map(v => String.fromCharCode(parseInt(v)));
-                    bzdToUniMap.set(key, values.join(''));
-                }
+            tblText.split('\n').forEach(l => {
+                const p = l.trim().split(/\s+/);
+                if (p.length >= 2) bzdMap.set(p[0], p.slice(1).map(v => String.fromCharCode(parseInt(v))).join(''));
             });
-            console.log("康巴仓，所有码表已就绪！");
-        } catch (e) { console.error("初始化失败:", e); }
+            console.log("康巴仓，转码引擎已就绪！");
+        } catch (e) { console.error("加载码表失败，请检查文件是否存在", e); }
     }
 
-    initConverter();
+    init();
 
     function convert(direction) {
-        const input = document.getElementById('inputArea').value;
+        let input = document.getElementById('inputArea').value;
         let output = "";
-
         if (direction === 'toUni') {
             for (let i = 0; i < input.length; i++) {
-                let charCode = input.charCodeAt(i);
-                // 关键点：如果是汉字乱码，先还原成原始二进制码
-                let rawCode = cp936Map.has(charCode) ? cp936Map.get(charCode) : charCode;
-                
-                // 查找映射（支持原始码和偏移码两种尝试）
-                let result = bzdToUniMap.get(rawCode.toString()) || 
-                             bzdToUniMap.get((rawCode - 61440).toString());
-
-                output += result ? result : input[i];
+                let code = input.charCodeAt(i);
+                // 1. 修正乱码
+                let raw = cp936Map.get(code) || code;
+                // 2. 查班智达表 (同时兼容 0xF000 偏移量)
+                let res = bzdMap.get(raw.toString()) || bzdMap.get((raw - 61440).toString());
+                output += res ? res : input[i];
             }
         }
         document.getElementById('outputArea').value = output;
