@@ -140,39 +140,47 @@
     let bandridaMap = {};
     let reverseMap = {};
 
+    // 1. 100% 准确地加载码表
     fetch('tibet_master_map.json')
         .then(response => response.json())
         .then(data => {
             bandridaMap = data.Bandrida;
+            // 构建反向映射
             for (let bzdKey in bandridaMap) {
                 let uniVal = bandridaMap[bzdKey];
                 reverseMap[uniVal] = bzdKey;
             }
-            document.getElementById('status').innerText = "✅ གྲ་སྒྲིག་ཚར་སོང་།";
-            // 加载成功后依然保持深红或改为更亮的红色
-            document.getElementById('status').style.color = "#8B0000"; 
+            console.log("码表加载成功");
         })
-        .catch(err => {
-            document.getElementById('status').innerText = "❌ ཡིག་ཆ་ལེན་མ་ཐུབ། JSON ལ་གཟིགས་རོགས།";
-        });
+        .catch(err => console.error("加载失败:", err));
 
     function convert(direction) {
         let input = document.getElementById('inputArea').value;
         let output = "";
 
         if (direction === 'toUni') {
+            // 班智达转喜马拉雅 (Unicode)
             for (let i = 0; i < input.length; i++) {
-                let charCode = input.charCodeAt(i).toString();
-                if (bandridaMap[charCode]) {
-                    let codes = bandridaMap[charCode].split(' ');
+                let codeNum = input.charCodeAt(i);
+                
+                // 关键点：班智达在网页中输入的字符编码通常在 0xF000 以上
+                // 我们尝试匹配原始编码、偏移后的编码
+                let codeStr = codeNum.toString();
+                let altCodeStr = (codeNum - 61440).toString(); // 处理私有区偏移 (0xF000)
+
+                let targetMatch = bandridaMap[codeStr] || bandridaMap[altCodeStr];
+
+                if (targetMatch) {
+                    let codes = targetMatch.split(' ');
                     codes.forEach(c => {
                         output += String.fromCharCode(parseInt(c));
                     });
                 } else {
-                    output += input[i];
+                    output += input[i]; // 没匹配上的保持原样
                 }
             }
         } else {
+            // 喜马拉雅转班智达 (按字匹配)
             let i = 0;
             while (i < input.length) {
                 let matched = false;
@@ -184,7 +192,11 @@
                     }
                     let key = subCodes.join(' ');
                     if (reverseMap[key]) {
-                        output += String.fromCharCode(parseInt(reverseMap[key]));
+                        // 转换回班智达时，也要考虑到显示，通常需要加回偏移量
+                        let bzdBase = parseInt(reverseMap[key]);
+                        // 如果编码小于 256，网页显示班智达通常需要加 0xF000
+                        let finalCode = bzdBase < 256 ? (bzdBase + 61440) : bzdBase;
+                        output += String.fromCharCode(finalCode);
                         i += len;
                         matched = true;
                         break;
