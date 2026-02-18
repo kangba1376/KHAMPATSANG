@@ -4524,23 +4524,29 @@
         let output = "";
 
         if (direction === 'toUni') {
+            // 班智达（乱码） -> 喜马拉雅（标准藏文）
             for (let i = 0; i < input.length; i++) {
                 let codeNum = input.charCodeAt(i);
-                let codeStr = codeNum.toString();
-                let altCodeStr = (codeNum - 61440).toString();
+                // 自动识别网页端班智达的两种编码可能（原始码或 0xF000 偏移码）
+                let realCode = codeNum >= 61440 ? (codeNum - 61440) : codeNum;
+                let codeStr = realCode.toString();
 
-                let targetMatch = bandridaMap[codeStr] || bandridaMap[altCodeStr];
-
-                if (targetMatch) {
-                    let codes = targetMatch.split(' ');
+                if (bandridaMap[codeStr]) {
+                    // 关键：将码表中的空格分隔的数字，转换成真正的 Unicode 字符
+                    let codes = bandridaMap[codeStr].split(' ');
                     codes.forEach(c => {
-                        output += String.fromCharCode(parseInt(c));
+                        let num = parseInt(c);
+                        if (!isNaN(num)) {
+                            output += String.fromCharCode(num);
+                        }
                     });
                 } else {
+                    // 如果没匹配到，保持原样（比如数字、空格、标点）
                     output += input[i];
                 }
             }
         } else {
+            // 喜马拉雅 -> 班智达
             let i = 0;
             while (i < input.length) {
                 let matched = false;
@@ -4553,9 +4559,8 @@
                     let key = subCodes.join(' ');
                     if (reverseMap[key]) {
                         let bzdBase = parseInt(reverseMap[key]);
-                        // 处理网页端班智达显示的私有区偏移
-                        let finalCode = bzdBase < 1000 ? (bzdBase + 61440) : bzdBase;
-                        output += String.fromCharCode(finalCode);
+                        // 转回班智达时，为了让网页能显示，强制加回 0xF000 偏移
+                        output += String.fromCharCode(bzdBase + 61440);
                         i += len;
                         matched = true;
                         break;
