@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="bo">
 <head>
+  <link rel="manifest" href="manifest.json">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
   <title>Convert</title>
@@ -119,20 +120,16 @@
     }
 
     /* --- 字体精准控制区 --- */
-
-    /* 1. 输入内容：调小至 15.12px */
     #input { 
       font-family: 'BZDHT', sans-serif !important; 
       font-size: 15.12px; 
     }
 
-    /* 2. 提示语：维持 24px 不变 */
     #input::placeholder {
       font-size: 24px;
       font-family: 'WildYak', sans-serif !important;
     }
 
-    /* 3. 输出内容：维持 24px 不变 */
     #output { 
       font-family: 'WildYak', sans-serif !important; 
       font-size: 24px;
@@ -191,5 +188,15 @@
 
   <script src="./rules_data.js" defer></script>
   <script src="./converter.js" defer></script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('Service Worker 注册成功'))
+          .catch(err => console.log('注册失败:', err));
+      });
+    }
+  </script>
 </body>
 </html>
