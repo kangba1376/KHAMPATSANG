@@ -1,4 +1,4 @@
-const CACHE_NAME = 'soul-day-2026-02-21-00:55'; // 自动更新的版本号
+const CACHE_NAME = 'soul-day-2026-02-21-01:06'; // 自动更新的版本号
 const ASSETS = [
   './',
   './index.html',
