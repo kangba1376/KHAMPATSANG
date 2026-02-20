@@ -43,28 +43,27 @@
       height: 100vh;
       width: 100vw;
       padding: env(safe-area-inset-top) 12px calc(env(safe-area-inset-bottom) + 5px);
-      gap: 8px;
+      gap: 6px; /* 紧凑间距 */
     }
 
     .title-area {
-      padding: 5px 0;
+      padding: 4px 0;
       text-align: center;
       flex-shrink: 0;
     }
 
     .title-area h1 {
-      font-size: clamp(14px, 4vw, 22px); 
+      font-size: clamp(14px, 4.5vw, 22px); 
       color: var(--primary-red);
       margin: 0;
       font-family: 'WildYak';
-      transition: all 0.2s ease;
     }
 
     .main-card {
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
       min-height: 0;
       background: var(--card);
       border-radius: var(--radius);
@@ -77,7 +76,7 @@
     .areas {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
       flex: 1;
       min-height: 0;
     }
@@ -92,7 +91,7 @@
     .area h2 {
       font-size: 11px;
       color: var(--primary-red);
-      margin: 0 0 3px 0;
+      margin: 0 0 2px 0;
       font-family: 'WildYak';
     }
 
@@ -117,7 +116,7 @@
       display: flex;
       justify-content: center;
       gap: 15px;
-      padding: 5px 0;
+      padding: 4px 0;
     }
 
     .btn {
@@ -133,6 +132,7 @@
     .btn-clear { background: #e5e5ea; color: #3a3a3c; }
     .btn-copy { background: var(--primary-red); color: white; }
 
+    /* --- 核心：固定高度声明区，确保不被吞噬 --- */
     .footer-area {
       flex-shrink: 0;
       text-align: center;
@@ -142,6 +142,8 @@
       -webkit-backdrop-filter: blur(10px);
       border-radius: 12px;
       border: 1px solid rgba(209, 209, 214, 0.4);
+      /* 增加显式高度保护 */
+      margin-top: 2px;
     }
 
     .footer-area .disclaimer {
@@ -159,19 +161,18 @@
       font-weight: bold;
     }
 
-    /* --- 横屏终极适配策略 --- */
+    /* --- 横屏：保持你认可的完美逻辑 --- */
     @media (orientation: landscape) and (max-height: 500px) {
       .app { gap: 4px; padding: 4px 10px; }
       .title-area { padding: 0; }
-      .title-area h1 { font-size: 14px; } /* 缩小但不消失 */
+      .title-area h1 { font-size: 14px; }
       .main-card { gap: 4px; padding: 6px; }
-      .areas { flex-direction: row; gap: 8px; } /* 左右分开布局 */
+      .areas { flex-direction: row; gap: 8px; }
       .area h2 { font-size: 10px; margin: 0; }
       .toolbar-card { padding: 2px 0; }
       .btn { padding: 4px 15px; font-size: 14px; }
       .footer-area { padding: 3px 10px; }
       .footer-area .disclaimer { font-size: 8.5px; margin-bottom: 0; }
-      .footer-area .copyright { font-size: 10px; }
     }
   </style>
 </head>
