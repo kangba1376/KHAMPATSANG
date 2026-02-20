@@ -28,17 +28,13 @@
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     
-    html, body { 
-      height: 100%; 
-      margin: 0; 
-      padding: 0;
-      background: var(--bg);
-      overflow: hidden; /* 恢复主容器隐藏，内部自适应 */
-    }
+    html, body { height: 100%; margin: 0; padding: 0; background: var(--bg); overflow: hidden; }
 
     body {
       font-family: 'WildYak', -apple-system, sans-serif;
       -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
     }
 
     .app {
@@ -47,7 +43,7 @@
       height: 100vh;
       width: 100vw;
       padding: env(safe-area-inset-top) 12px calc(env(safe-area-inset-bottom) + 5px);
-      gap: 10px;
+      gap: 8px;
     }
 
     .title-area {
@@ -61,14 +57,15 @@
       color: var(--primary-red);
       margin: 0;
       font-family: 'WildYak';
+      transition: all 0.2s ease;
     }
 
     .main-card {
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      min-height: 0; /* 允许在极小高度下收缩 */
+      gap: 8px;
+      min-height: 0;
       background: var(--card);
       border-radius: var(--radius);
       border: 1px solid #d1d1d6;
@@ -93,9 +90,9 @@
     }
 
     .area h2 {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--primary-red);
-      margin: 0 0 4px 0;
+      margin: 0 0 3px 0;
       font-family: 'WildYak';
     }
 
@@ -119,8 +116,8 @@
       flex-shrink: 0;
       display: flex;
       justify-content: center;
-      gap: 20px;
-      padding-top: 5px;
+      gap: 15px;
+      padding: 5px 0;
     }
 
     .btn {
@@ -136,11 +133,10 @@
     .btn-clear { background: #e5e5ea; color: #3a3a3c; }
     .btn-copy { background: var(--primary-red); color: white; }
 
-    /* --- 透明格子声明区 --- */
     .footer-area {
       flex-shrink: 0;
       text-align: center;
-      padding: 8px 10px;
+      padding: 6px 10px;
       background: rgba(255, 255, 255, 0.5);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
@@ -150,7 +146,7 @@
 
     .footer-area .disclaimer {
       color: var(--primary-red);
-      font-size: 10px;
+      font-size: 9px;
       line-height: 1.3;
       font-family: sans-serif;
       margin-bottom: 2px;
@@ -163,15 +159,19 @@
       font-weight: bold;
     }
 
-    /* --- 横屏适配逻辑 --- */
+    /* --- 横屏终极适配策略 --- */
     @media (orientation: landscape) and (max-height: 500px) {
-      .app { gap: 5px; padding: 5px 12px; }
-      .title-area { display: none; } /* 横屏隐藏大标题，腾出空间 */
-      .main-card { gap: 5px; padding: 5px; }
-      .areas { flex-direction: row; gap: 10px; } /* 横屏时左右并排 */
-      .footer-area { padding: 4px 10px; }
-      .footer-area .disclaimer { font-size: 9px; margin-bottom: 0; }
-      .btn { padding: 5px 20px; font-size: 14px; }
+      .app { gap: 4px; padding: 4px 10px; }
+      .title-area { padding: 0; }
+      .title-area h1 { font-size: 14px; } /* 缩小但不消失 */
+      .main-card { gap: 4px; padding: 6px; }
+      .areas { flex-direction: row; gap: 8px; } /* 左右分开布局 */
+      .area h2 { font-size: 10px; margin: 0; }
+      .toolbar-card { padding: 2px 0; }
+      .btn { padding: 4px 15px; font-size: 14px; }
+      .footer-area { padding: 3px 10px; }
+      .footer-area .disclaimer { font-size: 8.5px; margin-bottom: 0; }
+      .footer-area .copyright { font-size: 10px; }
     }
   </style>
 </head>
