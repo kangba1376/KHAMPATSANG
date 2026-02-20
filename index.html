@@ -33,109 +33,103 @@
       margin: 0; 
       padding: 0;
       background: var(--bg);
-      overflow: hidden; 
+      /* 允许必要的滚动以防止底部被吞 */
+      overflow-x: hidden;
+      overflow-y: auto;
     }
 
     body {
       font-family: 'WildYak', -apple-system, sans-serif;
       -webkit-font-smoothing: antialiased;
-      display: flex;
-      flex-direction: column;
     }
 
     .app {
       display: flex;
       flex-direction: column;
-      height: 100vh;
+      min-height: 100vh; /* 宽屏时撑满全屏 */
       width: 100vw;
-      /* 重点：增加底部安全区边距，确保内容不被刘海或 Home 条遮挡 */
-      padding: env(safe-area-inset-top) 12px calc(env(safe-area-inset-bottom) + 5px);
-      gap: 6px; /* 进一步收缩间距 */
+      padding: env(safe-area-inset-top) 12px calc(env(safe-area-inset-bottom) + 15px);
+      gap: 10px;
     }
 
     .title-area {
-      padding: 2px 0; /* 极简标题边距 */
+      padding: 5px 0;
       text-align: center;
       flex-shrink: 0;
     }
 
     .title-area h1 {
-      font-size: clamp(14px, 5vw, 20px); 
+      font-size: clamp(16px, 5vw, 24px); 
       color: var(--primary-red);
       margin: 0;
       font-family: 'WildYak';
-      white-space: nowrap;
     }
 
     .card {
       background: var(--card);
       border-radius: var(--radius);
       border: 1px solid #d1d1d6;
-      border-top: 5px solid var(--primary-red);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-      padding: 10px;
+      border-top: 8px solid var(--primary-red);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      padding: 12px;
     }
 
     .main-card {
-      flex: 1;
+      flex: 1; /* 关键：在宽屏上拉伸 */
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      min-height: 0;
+      gap: 10px;
+      min-height: 350px; /* 保证手机上也有足够高度 */
     }
 
     .areas {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 10px;
       flex: 1;
-      min-height: 0;
     }
 
     .area {
       flex: 1;
       display: flex;
       flex-direction: column;
-      min-height: 0;
     }
 
     .area h2 {
-      font-size: 12px;
+      font-size: 13px;
       color: var(--primary-red);
-      margin: 0 0 2px 0;
+      margin: 0 0 5px 0;
       font-family: 'WildYak';
-      flex-shrink: 0;
     }
 
     textarea {
       flex: 1;
       width: 100%;
-      padding: 8px;
+      padding: 12px;
       border-radius: 12px;
       border: 1px solid #e5e5ea;
       background: #fafafa;
       outline: none;
-      line-height: 1.4;
+      line-height: 1.5;
       resize: none;
       -webkit-appearance: none;
     }
 
-    #input { font-family: 'BZDHT', sans-serif !important; font-size: 15px; }
-    #output { font-family: 'WildYak', sans-serif !important; font-size: 22px; background: #ffffff; }
+    #input { font-family: 'BZDHT', sans-serif !important; font-size: 15.12px; }
+    #output { font-family: 'WildYak', sans-serif !important; font-size: 24px; background: #ffffff; }
 
     .toolbar-card {
       flex-shrink: 0;
       display: flex;
       justify-content: center;
-      gap: 15px;
-      padding: 8px; /* 适当缩小按钮区高度 */
+      gap: 20px;
     }
 
     .btn {
-      padding: 8px 25px;
-      border-radius: 10px;
+      padding: 12px 30px;
+      border-radius: 12px;
       border: none;
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 600;
       font-family: 'WildYak';
       cursor: pointer;
@@ -144,30 +138,28 @@
     .btn-clear { background: #e5e5ea; color: #3a3a3c; }
     .btn-copy { background: var(--primary-red); color: white; }
 
-    /* --- 透明格子声明区：强制可见性优化 --- */
     .footer-area {
       flex-shrink: 0;
       text-align: center;
-      padding: 6px 10px;
-      background: rgba(255, 255, 255, 0.6); /* 提高透明底清晰度 */
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border-radius: 12px;
-      border: 1px solid rgba(139, 0, 0, 0.1); /* 带一点主色调的边框 */
-      margin-top: 2px;
+      padding: 12px 10px;
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: var(--radius);
+      border: 1px solid rgba(209, 209, 214, 0.4);
     }
 
     .footer-area .disclaimer {
       color: var(--primary-red);
-      font-size: 9.5px; /* 略微缩小文字确保不换行太多 */
-      line-height: 1.3;
+      font-size: 10.5px;
+      line-height: 1.4;
       font-family: sans-serif;
-      margin-bottom: 2px;
+      margin-bottom: 4px;
     }
 
     .footer-area .copyright {
-      color: #00008B; /* 深蓝色 */
-      font-size: 11px;
+      color: #00008B;
+      font-size: 13px;
       font-family: 'WildYak', serif;
       font-weight: bold;
     }
@@ -185,9 +177,8 @@
           <h2>འགོད་འཇུག་ཁུལ།（པཎྜི་ཏ།）</h2>
           <textarea id="input" placeholder="འདི་ན་པཎྜི་ཏའི་ནང་དོན་འགོད་འཇུག་གནང་རོགས།..." oninput="if(window.__runConvert) window.__runConvert()"></textarea>
         </section>
-        
         <section class="area">
-          <h2>མཇུག་འབྲས་ཁུལ།（ཧི་མ་ལ་ཡ།）</h2>
+          <h2>མཇུག་འབྲས་ཁུལ།（ཧི་ལ་ཡ།）</h2>
           <textarea id="output" placeholder="བསྒྱུར་ཟིན་ཧི་ཡིག་འདི་ནས་འཆར་འོང་།" readonly></textarea>
         </section>
       </div>
@@ -199,7 +190,7 @@
     </div>
 
     <div class="footer-area">
-      <div class="disclaimer">本软件为免费开源工具，按“原样”提供。本人不保证转换结果的 100% 准确性，对使用产生的任何损失本人不承担任何法律或赔偿责任。</div>
+      <div class="disclaimer">本软件为免费开源工具，按“原样”提供。本人不保证转换结果的 100% 准确性，对因使用本软件而产生的任何直接或间接损失、责任及过失，本人概不承担任何法律或赔偿责任。</div>
       <div class="copyright">© ༢༠༢༦ ཁམས་པ་ཚང་། KHAM PA TSANG</div>
     </div>
   </div>
