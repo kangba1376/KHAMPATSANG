@@ -47,7 +47,6 @@
       flex-direction: column;
       height: 100vh;
       width: 100vw;
-      /* 底部上提，确保 iPhone 16PM 操作舒适 */
       padding: env(safe-area-inset-top) 12px calc(env(safe-area-inset-bottom) + 15px);
       gap: 12px;
     }
@@ -114,25 +113,42 @@
       border: 1px solid #e5e5ea;
       background: #fafafa;
       outline: none;
-      font-size: 24px; 
       line-height: 1.5;
       resize: none;
       -webkit-appearance: none;
     }
 
-    #input { font-family: 'BZDHT', sans-serif !important; }
-    #output { font-family: 'WildYak', sans-serif !important; background: #ffffff; }
+    /* --- 字体精准控制区 --- */
 
-    /* 按钮格子：改为居中布局 */
+    /* 1. 输入区内容：改小 30% (16.8px) */
+    #input { 
+      font-family: 'BZDHT', sans-serif !important; 
+      font-size: 16.8px; 
+    }
+
+    /* 2. 重点：强制提示语(placeholder) 保持大号 (24px) */
+    #input::placeholder {
+      font-size: 24px;
+      font-family: 'WildYak', sans-serif !important;
+    }
+
+    /* 3. 输出区：保持原样 (24px) */
+    #output { 
+      font-family: 'WildYak', sans-serif !important; 
+      font-size: 24px;
+      background: #ffffff; 
+    }
+
+    /* --- 底部按钮区 --- */
     .toolbar-card {
       flex-shrink: 0;
       display: flex;
-      justify-content: center; /* 按钮整体居中 */
-      gap: 20px; /* 按钮左右间距 */
+      justify-content: center;
+      gap: 20px;
     }
 
     .btn {
-      padding: 12px 30px; /* 增加按钮宽度使其更大气 */
+      padding: 12px 30px;
       border-radius: 12px;
       border: none;
       font-size: 18px;
