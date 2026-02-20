@@ -7510,7 +7510,7 @@ let rafId=null; function scheduleConvert(){
     const src=els.input.value;
     const pre=cp936Pre(src);
     const raw=convertSorted(pre);
-    const norm=raw.replace(/\u0F0B(?=[\u0F0D\u0F0E])/g,'');
+    const norm=raw.replace(/\u0F0B+(?=[\u0F0D\u0F0E])/g,'\u0F0B');
     els.output.value=norm;
     const c=coverage(pre);
     if(els.ruleCount){
