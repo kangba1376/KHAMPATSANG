@@ -48,18 +48,19 @@
       flex-direction: column;
       height: 100vh;
       width: 100vw;
-      padding: env(safe-area-inset-top) 12px calc(env(safe-area-inset-bottom) + 5px);
-      gap: 10px;
+      /* 缩小底部边距，确保版权行能露出来 */
+      padding: env(safe-area-inset-top) 12px calc(env(safe-area-inset-bottom) + 10px);
+      gap: 8px;
     }
 
     .title-area {
-      padding: 5px 0;
+      padding: 4px 0;
       text-align: center;
       flex-shrink: 0;
     }
 
     .title-area h1 {
-      font-size: clamp(16px, 5vw, 24px); 
+      font-size: clamp(16px, 5vw, 22px); 
       color: var(--primary-red);
       margin: 0;
       font-family: 'WildYak';
@@ -70,23 +71,23 @@
       background: var(--card);
       border-radius: var(--radius);
       border: 1px solid #d1d1d6;
-      border-top: 8px solid var(--primary-red);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-      padding: 12px;
+      border-top: 6px solid var(--primary-red);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+      padding: 10px;
     }
 
     .main-card {
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
       min-height: 0;
     }
 
     .areas {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
       flex: 1;
       min-height: 0;
     }
@@ -101,7 +102,7 @@
     .area h2 {
       font-size: 13px;
       color: var(--primary-red);
-      margin: 0 0 4px 0;
+      margin: 0 0 3px 0;
       font-family: 'WildYak';
       flex-shrink: 0;
     }
@@ -109,12 +110,12 @@
     textarea {
       flex: 1;
       width: 100%;
-      padding: 12px;
+      padding: 10px;
       border-radius: 12px;
       border: 1px solid #e5e5ea;
       background: #fafafa;
       outline: none;
-      line-height: 1.5;
+      line-height: 1.4;
       resize: none;
       -webkit-appearance: none;
     }
@@ -139,11 +140,11 @@
       flex-shrink: 0;
       display: flex;
       justify-content: center;
-      gap: 20px;
+      gap: 15px;
     }
 
     .btn {
-      padding: 12px 30px;
+      padding: 10px 25px;
       border-radius: 12px;
       border: none;
       font-size: 18px;
@@ -157,23 +158,30 @@
     .btn-copy { background: var(--primary-red); color: white; }
     .btn:active { opacity: 0.8; }
 
+    /* --- 透明格子声明区 --- */
     .footer-area {
       flex-shrink: 0;
       text-align: center;
-      padding: 5px 0;
-      font-size: 11px;
-      line-height: 1.6;
+      padding: 8px 10px;
+      /* 透明背景效果 */
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      border-radius: 12px;
+      border: 1px solid rgba(209, 209, 214, 0.3);
     }
 
     .footer-area .disclaimer {
       color: var(--primary-red);
+      font-size: 10px;
+      line-height: 1.4;
       font-family: sans-serif;
-      margin-bottom: 2px;
-      padding: 0 10px;
+      margin-bottom: 4px;
     }
 
     .footer-area .copyright {
       color: #00008B; /* 深蓝色 */
+      font-size: 11px;
       font-family: 'WildYak', serif;
       font-weight: bold;
     }
@@ -194,7 +202,7 @@
         
         <section class="area">
           <h2>མཇུག་འབྲས་ཁུལ།（ཧི་མ་ལ་ཡ།）</h2>
-          <textarea id="output" placeholder="བསྒྱུར་ཟིན་ཧི་ཡིག་འདི་ན་འཆར་འོང་།" readonly></textarea>
+          <textarea id="output" placeholder="བསྒྱུར་ཟིན་ཧི་ཡིག་འདི་ནས་འཆར་འོང་།" readonly></textarea>
         </section>
       </div>
     </div>
@@ -205,7 +213,7 @@
     </div>
 
     <div class="footer-area">
-      <div class="disclaimer">本软件为免费开源工具，按“原样”提供。本人不保证转换结果的 100% 准确性，对因使用本软件而产生的任何直接或间接损失、责任及过失，本人概不承担任何法律或赔偿责任。</div>
+      <div class="disclaimer">本软件为免费开源工具，按“原样”提供。本人不保证转换结果的 100% 准确性，对使用产生的任何损失或过失本人不承担任何法律或赔偿责任。</div>
       <div class="copyright">© ༢༠༢༦ ཁམས་པ་ཚང་། KHAM PA TSANG</div>
     </div>
   </div>
@@ -217,8 +225,8 @@
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
-          .then(reg => console.log('Service Worker 注册成功'))
-          .catch(err => console.log('注册失败:', err));
+          .then(reg => console.log('离线功能已激活'))
+          .catch(err => console.log('离线功能启动失败:', err));
       });
     }
   </script>
