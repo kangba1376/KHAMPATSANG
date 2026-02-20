@@ -28,6 +28,7 @@
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     
+    /* 彻底锁定 body 高度，禁止外部滚动 */
     html, body { height: 100%; margin: 0; padding: 0; background: var(--bg); overflow: hidden; }
 
     body {
@@ -42,14 +43,15 @@
       flex-direction: column;
       height: 100vh;
       width: 100vw;
-      padding: env(safe-area-inset-top) 12px calc(env(safe-area-inset-bottom) + 5px);
-      gap: 6px; /* 紧凑间距 */
+      padding: env(safe-area-inset-top) 12px calc(env(safe-area-inset-bottom) + 8px);
+      gap: 8px;
     }
 
+    /* 标题区：按需分配空间，不拉伸 */
     .title-area {
+      flex: 0 0 auto;
       padding: 4px 0;
       text-align: center;
-      flex-shrink: 0;
     }
 
     .title-area h1 {
@@ -59,8 +61,9 @@
       font-family: 'WildYak';
     }
 
+    /* 主卡片容器：占据剩余核心空间 */
     .main-card {
-      flex: 1;
+      flex: 1; 
       display: flex;
       flex-direction: column;
       gap: 6px;
@@ -81,14 +84,16 @@
       min-height: 0;
     }
 
+    /* 核心逻辑：输入输出区设定为 flex: 4 */
     .area {
-      flex: 1;
+      flex: 4; /* 这里的 4 就是你要求的比重 */
       display: flex;
       flex-direction: column;
       min-height: 0;
     }
 
     .area h2 {
+      flex: 0 0 auto; /* 标签不占用弹性空间 */
       font-size: 11px;
       color: var(--primary-red);
       margin: 0 0 2px 0;
@@ -96,7 +101,7 @@
     }
 
     textarea {
-      flex: 1;
+      flex: 1; /* 文本框填满其所属的 .area */
       width: 100%;
       padding: 8px;
       border-radius: 12px;
@@ -111,8 +116,9 @@
     #input { font-family: 'BZDHT', sans-serif !important; font-size: 14px; }
     #output { font-family: 'WildYak', sans-serif !important; font-size: 20px; background: #ffffff; }
 
+    /* 按钮区：固定高度，不参与拉伸 */
     .toolbar-card {
-      flex-shrink: 0;
+      flex: 0 0 auto;
       display: flex;
       justify-content: center;
       gap: 15px;
@@ -132,9 +138,9 @@
     .btn-clear { background: #e5e5ea; color: #3a3a3c; }
     .btn-copy { background: var(--primary-red); color: white; }
 
-    /* --- 核心：固定高度声明区，确保不被吞噬 --- */
+    /* 底部声明区：禁止收缩，强制保留空间 */
     .footer-area {
-      flex-shrink: 0;
+      flex: 0 0 auto; 
       text-align: center;
       padding: 6px 10px;
       background: rgba(255, 255, 255, 0.5);
@@ -142,8 +148,6 @@
       -webkit-backdrop-filter: blur(10px);
       border-radius: 12px;
       border: 1px solid rgba(209, 209, 214, 0.4);
-      /* 增加显式高度保护 */
-      margin-top: 2px;
     }
 
     .footer-area .disclaimer {
@@ -161,17 +165,11 @@
       font-weight: bold;
     }
 
-    /* --- 横屏：保持你认可的完美逻辑 --- */
+    /* 横屏：保持左右并排的完美比例 */
     @media (orientation: landscape) and (max-height: 500px) {
       .app { gap: 4px; padding: 4px 10px; }
-      .title-area { padding: 0; }
       .title-area h1 { font-size: 14px; }
-      .main-card { gap: 4px; padding: 6px; }
       .areas { flex-direction: row; gap: 8px; }
-      .area h2 { font-size: 10px; margin: 0; }
-      .toolbar-card { padding: 2px 0; }
-      .btn { padding: 4px 15px; font-size: 14px; }
-      .footer-area { padding: 3px 10px; }
       .footer-area .disclaimer { font-size: 8.5px; margin-bottom: 0; }
     }
   </style>
@@ -201,7 +199,7 @@
     </div>
 
     <div class="footer-area">
-      <div class="disclaimer">本软件为免费开源工具，按“原样”提供。本人不保证转换结果的 100% 准确性，对使用产生的任何损失或过失本人不承担任何法律或赔偿责任。</div>
+      <div class="disclaimer">本软件为免费开源工具，按“原样”提供。本人不保证转换结果的 100% 准确性，对使用产生的任何损失本人不承担任何法律或赔偿责任。</div>
       <div class="copyright">© ༢༠༢༦ ཁམས་པ་ཚང་། KHAM PA TSANG</div>
     </div>
   </div>
