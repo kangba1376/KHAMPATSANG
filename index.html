@@ -4,36 +4,18 @@
   <link rel="manifest" href="manifest.json">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
-  <title>Convert</title>
-  
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Convert">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="theme-color" content="#8B0000">
-  
-  <link rel="apple-touch-icon" href="logo.png">
-  <link rel="icon" type="image/png" href="logo.png">
-
+  <title>Soudl Day Convert</title>
   <style>
     @font-face { font-family: 'BZDHT'; src: url('./BZDHT.ttf') format('truetype'); }
     @font-face { font-family: 'WildYak'; src: url('./TibetWildYak.ttf') format('truetype'); }
 
-    :root {
-      --primary-red: #8B0000;
-      --bg: #f2f2f7;
-      --card: #ffffff;
-      --radius: 20px;
-    }
+    :root { --primary-red: #8B0000; --bg: #f2f2f7; --card: #ffffff; --radius: 20px; }
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    
-    /* 彻底锁定 body 高度，禁止外部滚动 */
     html, body { height: 100%; margin: 0; padding: 0; background: var(--bg); overflow: hidden; }
 
     body {
       font-family: 'WildYak', -apple-system, sans-serif;
-      -webkit-font-smoothing: antialiased;
       display: flex;
       flex-direction: column;
     }
@@ -43,134 +25,77 @@
       flex-direction: column;
       height: 100vh;
       width: 100vw;
-      padding: env(safe-area-inset-top) 12px calc(env(safe-area-inset-bottom) + 8px);
+      /* 针对 iPhone 16PM 底部安全区进行加固 */
+      padding: env(safe-area-inset-top) 12px calc(env(safe-area-inset-bottom) + 10px);
       gap: 8px;
     }
 
-    /* 标题区：按需分配空间，不拉伸 */
-    .title-area {
-      flex: 0 0 auto;
-      padding: 4px 0;
-      text-align: center;
-    }
+    /* 顶部标题：永远可见 */
+    .title-area { flex: 0 0 auto; padding: 4px 0; text-align: center; }
+    .title-area h1 { font-size: clamp(14px, 4.5vw, 22px); color: var(--primary-red); margin: 0; font-family: 'WildYak'; }
 
-    .title-area h1 {
-      font-size: clamp(14px, 4.5vw, 22px); 
-      color: var(--primary-red);
-      margin: 0;
-      font-family: 'WildYak';
-    }
-
-    /* 主卡片容器：占据剩余核心空间 */
-    .main-card {
-      flex: 1; 
+    /* 中间核心区：如果高度不够，就在这里产生滚动，保住头尾 */
+    .main-container {
+      flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 6px;
       min-height: 0;
+      gap: 8px;
+    }
+
+    .card {
       background: var(--card);
       border-radius: var(--radius);
       border: 1px solid #d1d1d6;
       border-top: 6px solid var(--primary-red);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
       padding: 10px;
     }
 
-    .areas {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+    .main-card {
       flex: 1;
-      min-height: 0;
-    }
-
-    /* 核心逻辑：输入输出区设定为 flex: 4 */
-    .area {
-      flex: 4; /* 这里的 4 就是你要求的比重 */
       display: flex;
       flex-direction: column;
+      gap: 8px;
       min-height: 0;
+      overflow-y: auto; /* 核心：空间不足时内部滚动 */
     }
 
-    .area h2 {
-      flex: 0 0 auto; /* 标签不占用弹性空间 */
-      font-size: 11px;
-      color: var(--primary-red);
-      margin: 0 0 2px 0;
-      font-family: 'WildYak';
-    }
+    .areas { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+    .area { flex: 1; display: flex; flex-direction: column; min-height: 120px; }
+    .area h2 { font-size: 11px; color: var(--primary-red); margin: 0 0 2px 0; font-family: 'WildYak'; }
 
     textarea {
-      flex: 1; /* 文本框填满其所属的 .area */
-      width: 100%;
-      padding: 8px;
-      border-radius: 12px;
-      border: 1px solid #e5e5ea;
-      background: #fafafa;
-      outline: none;
-      line-height: 1.4;
-      resize: none;
-      -webkit-appearance: none;
+      flex: 1; width: 100%; padding: 10px; border-radius: 12px; border: 1px solid #e5e5ea;
+      background: #fafafa; outline: none; line-height: 1.4; resize: none; -webkit-appearance: none;
     }
 
-    #input { font-family: 'BZDHT', sans-serif !important; font-size: 14px; }
-    #output { font-family: 'WildYak', sans-serif !important; font-size: 20px; background: #ffffff; }
+    #input { font-family: 'BZDHT', sans-serif !important; font-size: 15px; }
+    #output { font-family: 'WildYak', sans-serif !important; font-size: 22px; background: #ffffff; }
 
-    /* 按钮区：固定高度，不参与拉伸 */
-    .toolbar-card {
-      flex: 0 0 auto;
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      padding: 4px 0;
-    }
-
-    .btn {
-      padding: 8px 25px;
-      border-radius: 10px;
-      border: none;
-      font-size: 16px;
-      font-weight: 600;
-      font-family: 'WildYak';
-      cursor: pointer;
-    }
-
+    .toolbar-card { flex: 0 0 auto; display: flex; justify-content: center; gap: 15px; padding: 5px 0; }
+    .btn { padding: 8px 25px; border-radius: 10px; border: none; font-size: 16px; font-weight: 600; font-family: 'WildYak'; cursor: pointer; }
     .btn-clear { background: #e5e5ea; color: #3a3a3c; }
     .btn-copy { background: var(--primary-red); color: white; }
 
-    /* 底部声明区：禁止收缩，强制保留空间 */
+    /* 底部声明区：绝对锁定，绝不消失 */
     .footer-area {
-      flex: 0 0 auto; 
+      flex: 0 0 auto;
       text-align: center;
-      padding: 6px 10px;
-      background: rgba(255, 255, 255, 0.5);
+      padding: 8px 10px;
+      background: rgba(255, 255, 255, 0.6);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       border-radius: 12px;
       border: 1px solid rgba(209, 209, 214, 0.4);
     }
 
-    .footer-area .disclaimer {
-      color: var(--primary-red);
-      font-size: 9px;
-      line-height: 1.3;
-      font-family: sans-serif;
-      margin-bottom: 2px;
-    }
+    .footer-area .disclaimer { color: var(--primary-red); font-size: 9px; line-height: 1.3; margin-bottom: 2px; font-family: sans-serif; }
+    .footer-area .copyright { color: #00008B; font-size: 11px; font-family: 'WildYak', serif; font-weight: bold; }
 
-    .footer-area .copyright {
-      color: #00008B;
-      font-size: 11px;
-      font-family: 'WildYak', serif;
-      font-weight: bold;
-    }
-
-    /* 横屏：保持左右并排的完美比例 */
-    @media (orientation: landscape) and (max-height: 500px) {
-      .app { gap: 4px; padding: 4px 10px; }
+    @media (orientation: landscape) {
+      .areas { flex-direction: row; }
       .title-area h1 { font-size: 14px; }
-      .areas { flex-direction: row; gap: 8px; }
-      .footer-area .disclaimer { font-size: 8.5px; margin-bottom: 0; }
     }
   </style>
 </head>
@@ -180,19 +105,21 @@
       <h1>ཁམས་པ་ཚང་བོད་ཡིག་ཨང་བསྒྱུར།</h1>
     </div>
 
-    <div class="card main-card">
-      <div class="areas">
-        <section class="area">
-          <h2>འགོད་འཇུག་ཁུལ།（པཎྜི་ཏ།）</h2>
-          <textarea id="input" placeholder="འདི་ན་པཎྜི་ཏའི་ནང་དོན་འགོད་འཇུག་གནང་རོགས།..." oninput="if(window.__runConvert) window.__runConvert()"></textarea>
-        </section>
-        <section class="area">
-          <h2>མཇུག་འབྲས་ཁུལ།（ཧི་ལ་ཡ།）</h2>
-          <textarea id="output" placeholder="བསྒྱུར་ཟིན་ཧི་ཡིག་འདི་ནས་འཆར་འོང་།" readonly></textarea>
-        </section>
+    <div class="main-container">
+      <div class="card main-card">
+        <div class="areas">
+          <section class="area">
+            <h2>འགོད་འཇུག་ཁུལ།（པཎྜི་ཏ།）</h2>
+            <textarea id="input" placeholder="འདི་ན་པཎྜི་ཏའི་ནང་དོན་འགོད་འཇུག་གནང་རོགས།..." oninput="if(window.__runConvert) window.__runConvert()"></textarea>
+          </section>
+          <section class="area">
+            <h2>མཇུག་འབྲས་ཁུལ།（ཧི་ལ་ཡ།）</h2>
+            <textarea id="output" placeholder="བསྒྱུར་ཟིན་ཧི་ཡིག་འདི་ནས་འཆར་འོང་།" readonly></textarea>
+          </section>
+        </div>
       </div>
-      
-      <div class="toolbar-card">
+
+      <div class="card toolbar-card">
         <button id="clearBtn" class="btn btn-clear" onclick="document.getElementById('input').value='';document.getElementById('output').value='';">གཙང་སེལ།</button>
         <button id="copyBtn" class="btn btn-copy" onclick="const out=document.getElementById('output'); out.select(); document.execCommand('copy');">ཆ་ཚང་བཤུ།</button>
       </div>
@@ -203,18 +130,7 @@
       <div class="copyright">© ༢༠༢༦ ཁམས་པ་ཚང་། KHAM PA TSANG</div>
     </div>
   </div>
-
   <script src="./rules_data.js" defer></script>
   <script src="./converter.js" defer></script>
-
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-          .then(reg => console.log('离线功能已激活'))
-          .catch(err => console.log('离线功能启动失败:', err));
-      });
-    }
-  </script>
 </body>
 </html>
