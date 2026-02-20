@@ -2,13 +2,12 @@
 <html lang="bo">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
   <title>Convert</title>
   
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Convert">
-  <meta name="application-name" content="Convert">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#8B0000">
   
@@ -16,21 +15,13 @@
   <link rel="icon" type="image/png" href="logo.png">
 
   <style>
-    /* 1. 注册字体 */
-    @font-face {
-      font-family: 'BZDHT';
-      src: url('./BZDHT.ttf') format('truetype');
-    }
-    @font-face {
-      font-family: 'WildYak';
-      src: url('./TibetWildYak.ttf') format('truetype');
-    }
+    @font-face { font-family: 'BZDHT'; src: url('./BZDHT.ttf') format('truetype'); }
+    @font-face { font-family: 'WildYak'; src: url('./TibetWildYak.ttf') format('truetype'); }
 
     :root {
       --primary-red: #8B0000;
       --bg: #f2f2f7;
       --card: #ffffff;
-      --text: #1c1c1e;
       --radius: 20px;
     }
 
@@ -45,7 +36,6 @@
     }
 
     body {
-      color: var(--text);
       font-family: 'WildYak', -apple-system, sans-serif;
       -webkit-font-smoothing: antialiased;
       display: flex;
@@ -56,24 +46,22 @@
       display: flex;
       flex-direction: column;
       height: 100vh;
-      width: 100vw; /* 强制铺满视口宽度，无任何缩进限制 */
-      margin: 0;
-      padding: env(safe-area-inset-top) 8px max(8px, env(safe-area-inset-bottom));
+      width: 100vw;
+      padding: env(safe-area-inset-top) 8px max(12px, env(safe-area-inset-bottom));
     }
 
     .title-area {
-      padding: 8px 0;
+      padding: 6px 0;
       text-align: center;
       flex-shrink: 0;
     }
 
     .title-area h1 {
-      /* 字体随宽度自动伸缩，最小 16px */
       font-size: clamp(16px, 5vw, 24px); 
       color: var(--primary-red);
       margin: 0;
       font-family: 'WildYak';
-      white-space: nowrap; /* 防止标题在窄屏下断开 */
+      white-space: nowrap;
     }
 
     .card {
@@ -88,14 +76,13 @@
       flex-direction: column;
       gap: 8px;
       min-height: 0;
-      width: 100%; /* 始终占据父容器 100% 宽度 */
     }
 
     .areas {
       display: flex;
       flex-direction: column;
       gap: 8px;
-      flex: 1;
+      flex: 1; /* 这里动态占据剩余空间 */
       min-height: 0;
     }
 
@@ -128,20 +115,20 @@
       -webkit-appearance: none;
     }
 
-    /* 字体绑定 */
     #input { font-family: 'BZDHT', sans-serif !important; }
     #output { font-family: 'WildYak', sans-serif !important; background: #ffffff; }
 
+    /* 优化底部工具栏，确保不被遮挡 */
     .toolbar {
       display: flex;
       justify-content: flex-end;
       gap: 10px;
-      padding-top: 6px;
-      flex-shrink: 0;
+      padding: 8px 0 4px; /* 增加上下内边距 */
+      flex-shrink: 0; /* 绝对不压缩这个区域 */
     }
 
     .btn {
-      padding: 8px 18px;
+      padding: 10px 22px;
       border-radius: 10px;
       border: none;
       font-size: 16px;
