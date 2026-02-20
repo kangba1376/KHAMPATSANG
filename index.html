@@ -25,16 +25,13 @@
       flex-direction: column;
       height: 100vh;
       width: 100vw;
-      /* 针对 iPhone 16PM 底部安全区进行加固 */
       padding: env(safe-area-inset-top) 12px calc(env(safe-area-inset-bottom) + 10px);
       gap: 8px;
     }
 
-    /* 顶部标题：永远可见 */
     .title-area { flex: 0 0 auto; padding: 4px 0; text-align: center; }
     .title-area h1 { font-size: clamp(14px, 4.5vw, 22px); color: var(--primary-red); margin: 0; font-family: 'WildYak'; }
 
-    /* 中间核心区：如果高度不够，就在这里产生滚动，保住头尾 */
     .main-container {
       flex: 1;
       display: flex;
@@ -58,7 +55,7 @@
       flex-direction: column;
       gap: 8px;
       min-height: 0;
-      overflow-y: auto; /* 核心：空间不足时内部滚动 */
+      overflow-y: auto;
     }
 
     .areas { display: flex; flex-direction: column; gap: 8px; flex: 1; }
@@ -70,7 +67,13 @@
       background: #fafafa; outline: none; line-height: 1.4; resize: none; -webkit-appearance: none;
     }
 
+    textarea::placeholder { 
+      font-family: 'WildYak', serif !important; 
+      font-size: 18px !important; 
+    }
+    
     #input { font-family: 'BZDHT', sans-serif !important; font-size: 15px; }
+    
     #output { font-family: 'WildYak', sans-serif !important; font-size: 22px; background: #ffffff; }
 
     .toolbar-card { flex: 0 0 auto; display: flex; justify-content: center; gap: 15px; padding: 5px 0; }
@@ -78,7 +81,6 @@
     .btn-clear { background: #e5e5ea; color: #3a3a3c; }
     .btn-copy { background: var(--primary-red); color: white; }
 
-    /* 底部声明区：绝对锁定，绝不消失 */
     .footer-area {
       flex: 0 0 auto;
       text-align: center;
@@ -130,6 +132,30 @@
       <div class="copyright">© ༢༠༢༦ ཁམས་པ་ཚང་། KHAM PA TSANG</div>
     </div>
   </div>
+
+  <script>
+    // 注册 Service Worker 并处理自动更新
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').then(reg => {
+          // 有网时主动检查更新
+          if (navigator.onLine) {
+            reg.update();
+          }
+          
+          reg.onupdatefound = () => {
+            const installingWorker = reg.installing;
+            installingWorker.onstatechange = () => {
+              if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                // 版本已变动且新资源已下载，立即重启应用
+                window.location.reload();
+              }
+            };
+          };
+        });
+      });
+    }
+  </script>
   <script src="./rules_data.js" defer></script>
   <script src="./converter.js" defer></script>
 </body>
