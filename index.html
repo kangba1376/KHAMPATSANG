@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="bo">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Convert</title>
+  
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Convert">
+  <meta name="application-name" content="Convert">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#8B0000">
+  
+  <link rel="apple-touch-icon" href="logo.png">
+  <link rel="icon" type="image/png" href="logo.png">
+
+  <style>
+    /* 1. 注册字体 */
+    @font-face {
+      font-family: 'BZDHT';
+      src: url('./BZDHT.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'WildYak';
+      src: url('./TibetWildYak.ttf') format('truetype');
+    }
+
+    :root {
+      --primary-red: #8B0000;
+      --bg: #f2f2f7;
+      --card: #ffffff;
+      --text: #1c1c1e;
+      --radius: 20px;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    
+    html, body { 
+      height: 100%; 
+      margin: 0; 
+      padding: 0;
+      background: var(--bg);
+      overflow: hidden; 
+    }
+
+    body {
+      color: var(--text);
+      font-family: 'WildYak', -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .app {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      width: 100vw; /* 强制铺满视口宽度，无任何缩进限制 */
+      margin: 0;
+      padding: env(safe-area-inset-top) 8px max(8px, env(safe-area-inset-bottom));
+    }
+
+    .title-area {
+      padding: 8px 0;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .title-area h1 {
+      /* 字体随宽度自动伸缩，最小 16px */
+      font-size: clamp(16px, 5vw, 24px); 
+      color: var(--primary-red);
+      margin: 0;
+      font-family: 'WildYak';
+      white-space: nowrap; /* 防止标题在窄屏下断开 */
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      border: 1px solid #d1d1d6;
+      border-top: 8px solid var(--primary-red);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      padding: 10px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 0;
+      width: 100%; /* 始终占据父容器 100% 宽度 */
+    }
+
+    .areas {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .area h2 {
+      font-size: 13px;
+      color: var(--primary-red);
+      margin: 0 0 4px 0;
+      font-family: 'WildYak';
+      flex-shrink: 0;
+    }
+
+    textarea {
+      flex: 1;
+      width: 100%;
+      padding: 10px;
+      border-radius: 12px;
+      border: 1px solid #e5e5ea;
+      background: #fafafa;
+      outline: none;
+      font-size: 24px; 
+      line-height: 1.5;
+      resize: none;
+      -webkit-appearance: none;
+    }
+
+    /* 字体绑定 */
+    #input { font-family: 'BZDHT', sans-serif !important; }
+    #output { font-family: 'WildYak', sans-serif !important; background: #ffffff; }
+
+    .toolbar {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      padding-top: 6px;
+      flex-shrink: 0;
+    }
+
+    .btn {
+      padding: 8px 18px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: 'WildYak';
+      cursor: pointer;
+    }
+
+    .btn-clear { background: #e5e5ea; color: #3a3a3c; }
+    .btn-copy { background: var(--primary-red); color: white; }
+    .btn:active { opacity: 0.8; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="title-area">
+      <h1>ཁམས་པ་ཚང་བོད་ཡིག་ཨང་བསྒྱུར།</h1>
+    </div>
+
+    <div class="card">
+      <div class="areas">
+        <section class="area">
+          <h2>འགོད་འཇུག་ཁུལ།（པཎྜི་ཏ།）</h2>
+          <textarea id="input" placeholder="འདི་ན་པཎྜི་ཏའི་ནང་དོན་འགོད་འཇུག་གནང་རོགས།..." oninput="if(window.__runConvert) window.__runConvert()"></textarea>
+        </section>
+        
+        <section class="area">
+          <h2>མཇུག་འབྲས་ཁུལ།（ཧི་མ་ལ་ཡ།）</h2>
+          <textarea id="output" placeholder="བསྒྱུར་ཟིན་ཧི་ཡིག་འདི་ནས་འཆར་འོང་།" readonly></textarea>
+        </section>
+      </div>
+
+      <div class="toolbar">
+        <button id="clearBtn" class="btn btn-clear" onclick="document.getElementById('input').value='';document.getElementById('output').value='';">གཙང་སེལ།</button>
+        <button id="copyBtn" class="btn btn-copy" onclick="const out=document.getElementById('output'); out.select(); document.execCommand('copy');">ཆ་ཚང་བཤུ་ལེན།</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./rules_data.js" defer></script>
+  <script src="./converter.js" defer></script>
+</body>
+</html>
