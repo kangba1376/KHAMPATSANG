@@ -48,8 +48,8 @@
       flex-direction: column;
       height: 100vh;
       width: 100vw;
-      padding: env(safe-area-inset-top) 12px calc(env(safe-area-inset-bottom) + 15px);
-      gap: 12px;
+      padding: env(safe-area-inset-top) 12px calc(env(safe-area-inset-bottom) + 5px);
+      gap: 10px;
     }
 
     .title-area {
@@ -119,7 +119,6 @@
       -webkit-appearance: none;
     }
 
-    /* --- 字体精准控制区 --- */
     #input { 
       font-family: 'BZDHT', sans-serif !important; 
       font-size: 15.12px; 
@@ -136,7 +135,6 @@
       background: #ffffff; 
     }
 
-    /* --- 底部按钮区 --- */
     .toolbar-card {
       flex-shrink: 0;
       display: flex;
@@ -158,6 +156,27 @@
     .btn-clear { background: #e5e5ea; color: #3a3a3c; }
     .btn-copy { background: var(--primary-red); color: white; }
     .btn:active { opacity: 0.8; }
+
+    .footer-area {
+      flex-shrink: 0;
+      text-align: center;
+      padding: 5px 0;
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .footer-area .disclaimer {
+      color: var(--primary-red);
+      font-family: sans-serif;
+      margin-bottom: 2px;
+      padding: 0 10px;
+    }
+
+    .footer-area .copyright {
+      color: #00008B; /* 深蓝色 */
+      font-family: 'WildYak', serif;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -175,14 +194,19 @@
         
         <section class="area">
           <h2>མཇུག་འབྲས་ཁུལ།（ཧི་མ་ལ་ཡ།）</h2>
-          <textarea id="output" placeholder="བསྒྱུར་ཟིན་ཧི་ཡིག་འདི་ནས་འཆར་འོང་།" readonly></textarea>
+          <textarea id="output" placeholder="བསྒྱུར་ཟིན་ཧི་ཡིག་འདི་ན་འཆར་འོང་།" readonly></textarea>
         </section>
       </div>
     </div>
 
     <div class="card toolbar-card">
       <button id="clearBtn" class="btn btn-clear" onclick="document.getElementById('input').value='';document.getElementById('output').value='';">གཙང་སེལ།</button>
-      <button id="copyBtn" class="btn btn-copy" onclick="const out=document.getElementById('output'); out.select(); document.execCommand('copy');">ཆ་ཚང་བཤུ་ལེན།</button>
+      <button id="copyBtn" class="btn btn-copy" onclick="const out=document.getElementById('output'); out.select(); document.execCommand('copy');">ཆ་ཚང་བཤུ།</button>
+    </div>
+
+    <div class="footer-area">
+      <div class="disclaimer">本软件为免费开源工具，按“原样”提供。本人不保证转换结果的 100% 准确性，对因使用本软件而产生的任何直接或间接损失、责任及过失，本人概不承担任何法律或赔偿责任。</div>
+      <div class="copyright">© ༢༠༢༦ ཁམས་པ་ཚང་། KHAM PA TSANG</div>
     </div>
   </div>
 
