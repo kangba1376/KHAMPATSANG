@@ -67,10 +67,9 @@
       background: #fafafa; outline: none; line-height: 1.4; resize: none; -webkit-appearance: none;
     }
 
-    /* 核心修正：统一提示文字大小为 15px 并使用野牛字体 */
     textarea::placeholder { 
       font-family: 'WildYak', serif !important; 
-      font-size: 15px !important; 
+      font-size: 18px !important; 
     }
 
     #input { font-family: 'BZDHT', sans-serif !important; font-size: 15px; }
@@ -113,24 +112,24 @@
         <div class="areas">
           <section class="area">
             <h2>འགོད་འཇུག་ཁུལ།（པཎྜི་ཏ།）</h2>
-            <textarea id="input" placeholder="འདི་ན་པཎྜི་ཏའི་ནང་དོན་འགོད་འཇུག་གནང་རོགས།..." oninput="if(window.__runConvert) window.__runConvert()"></textarea>
+            <textarea id="input" placeholder="པཎྜི་ཏའི་ནང་དོན་འདི་ན་འགོད་རོགས།..." oninput="if(window.__runConvert) window.__runConvert()"></textarea>
           </section>
           <section class="area">
-            <h2>མཇུག་འབྲས་ཁུལ།（ཧི་ལ་ཡ།）</h2>
+            <h2>མཇུག་འབྲས་ཁུལ།（ཧི་མ་ལ་ཡ།）</h2>
             <textarea id="output" placeholder="བསྒྱུར་ཟིན་ཧི་ཡིག་འདི་ནས་འཆར་འོང་།" readonly></textarea>
           </section>
         </div>
       </div>
 
       <div class="card toolbar-card">
-        <button id="clearBtn" class="btn btn-clear" onclick="document.getElementById('input').value='';document.getElementById('output').value='';">གཙང་སེལ།</button>
+        <button id="clearBtn" class="btn btn-clear" onclick="document.getElementById('input').value='';document.getElementById('output').value='';">གཙང་སེལ་བཟོ།</button>
         <button id="copyBtn" class="btn btn-copy" onclick="const out=document.getElementById('output'); out.select(); document.execCommand('copy');">ཆ་ཚང་བཤུ།</button>
       </div>
     </div>
 
     <div class="footer-area">
-      <div class="disclaimer">免责声明：本软件为免费开源工具，按“原样”提供。本人不保证转换结果的 100% 准确性，对因使用本软件而产生的任何直接或间接损失、责任及过失，本人概不承担任何法律或赔偿责任。</div>
-      <div class="copyright">© ༢༠༢༦ ཁམས་པ་ཚང་། KHAM PA TSANG</div>
+      <div class="disclaimer">免责声明：本软件按“现状”（AS IS）提供，仅限班智达到喜马拉雅藏文的编码转换。开发者不提供任何明示或暗示担保，亦不承担因使用本工具产生的任何直接或间接法律责任。</div>
+      <div class="copyright">© ༢༠༢༦ ཁམས་པ་ཚང་། KHAM PA TSANG ༡༧༧༡༡༩༥༥༥༥༤</div>
     </div>
   </div>
   <script src="./rules_data.js" defer></script>
