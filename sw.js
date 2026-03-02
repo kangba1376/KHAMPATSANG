@@ -1,4 +1,4 @@
-const CACHE_NAME = 'soul-day-2026-03-02-13:55'; // 每次更新必须修改这个时间戳
+const CACHE_NAME = 'soul-day-2026-03-02-14:55'; // 每次更新必须修改这个时间戳
 const ASSETS = [
   './',
   './index.html',
