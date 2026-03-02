@@ -1,4 +1,4 @@
-const CACHE_NAME = 'soul-day-2026-03-02-13:45'; // 已自动为您更新为当前北京时间
+const CACHE_NAME = 'soul-day-2026-03-02-13:55'; // 每次更新必须修改这个时间戳
 const ASSETS = [
   './',
   './index.html',
@@ -12,7 +12,6 @@ const ASSETS = [
   './manifest.json'
 ];
 
-// 安装阶段：强制跳过等待
 self.addEventListener('install', (e) => {
   self.skipWaiting(); 
   e.waitUntil(
@@ -20,27 +19,34 @@ self.addEventListener('install', (e) => {
   );
 });
 
-// 激活阶段：彻底清理旧缓存并强制接管页面
 self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys().then((keys) => {
       return Promise.all(
         keys.map((key) => {
           if (key !== CACHE_NAME) {
-            console.log('清理旧版本缓存:', key);
             return caches.delete(key);
           }
         })
       );
-    }).then(() => self.clients.claim()) // 关键：立即控制所有客户端，不等待下次刷新
+    }).then(() => self.clients.claim()) 
   );
 });
 
-// 抓取策略：网络优先（确保最新消息），失败后退回缓存（保证离线可用）
+// 核心修改：网络优先，且对 index.html 强制不走缓存
 self.addEventListener('fetch', (e) => {
+  const url = new URL(e.request.url);
+  // 如果请求的是主页，强制从网络获取最新的
+  if (url.pathname === '/' || url.pathname.endsWith('index.html')) {
+    e.respondWith(
+      fetch(e.request).catch(() => caches.match(e.request))
+    );
+    return;
+  }
+
   e.respondWith(
-    fetch(e.request).catch(() => {
-      return caches.match(e.request);
+    caches.match(e.request).then((res) => {
+      return res || fetch(e.request);
     })
   );
 });
