@@ -1,4 +1,4 @@
-const CACHE_NAME = 'soul-day-2026-03-02-13:25'; // 自动更新的版本号
+const CACHE_NAME = 'soul-day-2026-03-02-13:45'; // 已自动为您更新为当前北京时间
 const ASSETS = [
   './',
   './index.html',
@@ -12,32 +12,35 @@ const ASSETS = [
   './manifest.json'
 ];
 
-// 安装并预缓存
+// 安装阶段：强制跳过等待
 self.addEventListener('install', (e) => {
-  self.skipWaiting(); // 强制跳过等待，立即进入激活状态
+  self.skipWaiting(); 
   e.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
   );
 });
 
-// 激活阶段：清理旧版本缓存
+// 激活阶段：彻底清理旧缓存并强制接管页面
 self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys().then((keys) => {
       return Promise.all(
         keys.map((key) => {
           if (key !== CACHE_NAME) {
+            console.log('清理旧版本缓存:', key);
             return caches.delete(key);
           }
         })
       );
-    }).then(() => self.clients.claim()) // 立即控制所有页面
+    }).then(() => self.clients.claim()) // 关键：立即控制所有客户端，不等待下次刷新
   );
 });
 
-// 策略：优先从缓存读取，断网可用；有网时通过 index.html 的检测来触发更新
+// 抓取策略：网络优先（确保最新消息），失败后退回缓存（保证离线可用）
 self.addEventListener('fetch', (e) => {
   e.respondWith(
-    caches.match(e.request).then((res) => res || fetch(e.request))
+    fetch(e.request).catch(() => {
+      return caches.match(e.request);
+    })
   );
 });
