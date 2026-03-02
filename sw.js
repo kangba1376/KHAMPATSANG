@@ -1,4 +1,4 @@
-const CACHE_NAME = 'soul-day-2026-03-02-14:55'; // 每次更新必须修改这个时间戳
+const CACHE_NAME = 'soul-day-2026-03-02-15:05'; // 每次发布新消息，必须改这个时间
 const ASSETS = [
   './',
   './index.html',
@@ -12,13 +12,15 @@ const ASSETS = [
   './manifest.json'
 ];
 
+// 安装：立即接管
 self.addEventListener('install', (e) => {
-  self.skipWaiting(); 
+  self.skipWaiting();
   e.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
   );
 });
 
+// 激活：暴力删除所有旧缓存
 self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys().then((keys) => {
@@ -29,24 +31,25 @@ self.addEventListener('activate', (e) => {
           }
         })
       );
-    }).then(() => self.clients.claim()) 
+    }).then(() => self.clients.claim())
   );
 });
 
-// 核心修改：网络优先，且对 index.html 强制不走缓存
+// 策略修改：网络优先。解决手机桌面版不刷新的核心
 self.addEventListener('fetch', (e) => {
-  const url = new URL(e.request.url);
-  // 如果请求的是主页，强制从网络获取最新的
-  if (url.pathname === '/' || url.pathname.endsWith('index.html')) {
-    e.respondWith(
-      fetch(e.request).catch(() => caches.match(e.request))
-    );
-    return;
-  }
-
   e.respondWith(
-    caches.match(e.request).then((res) => {
-      return res || fetch(e.request);
-    })
+    fetch(e.request)
+      .then((response) => {
+        // 只有请求成功，才更新缓存
+        if (response && response.status === 200) {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(e.request, clone));
+        }
+        return response;
+      })
+      .catch(() => {
+        // 没网时，才走缓存
+        return caches.match(e.request);
+      })
   );
 });
