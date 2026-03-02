@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ཁམས་པ་ཚང་བོད་ཡིག་ཨང་བསྒྱུར་མཉེན་ཆས། | 康巴仓藏文转换工具</title>
+    <style>
+        @font-face {
+            font-family: 'TibetWildYak';
+            src: url('TibetWildYak.ttf') format('truetype');
+        }
+
+        body { 
+            font-family: 'TibetWildYak', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            line-height: 1.6; 
+            color: #333; 
+            max-width: 900px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            background-color: #f4f7f6; 
+        }
+        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        h1, h2 { font-family: 'TibetWildYak', sans-serif; }
+        h1 { color: #2c3e50; text-align: center; margin-bottom: 5px; margin-top: 5px; }
+        h2 { border-left: 5px solid #3498db; padding-left: 10px; margin-top: 30px; }
+        
+        .tibet-header { display: block; font-size: 0.9em; color: #2980b9; margin-bottom: -5px; font-family: 'TibetWildYak'; }
+        .tibet-main-title { display: block; text-align: center; font-size: 1.5em; color: #2980b9; font-weight: bold; margin-bottom: 5px; font-family: 'TibetWildYak'; }
+        
+        .browser-tip { display: flex; justify-content: center; gap: 20px; color: #7f8c8d; font-size: 0.9em; margin-bottom: 20px; border-top: 1px dashed #ccc; padding-top: 10px; }
+        .browser-tip span:first-child { font-family: 'TibetWildYak'; }
+
+        .btn-group { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 15px; }
+        .btn { display: inline-block; padding: 10px 18px; background: #3498db; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; transition: background 0.3s; cursor: pointer; border:none; text-align: center; line-height: 1.4; flex: 1; min-width: 250px; }
+        .btn span { display: block; font-size: 1em; font-weight: normal; margin-bottom: 2px; font-family: 'TibetWildYak'; }
+        .btn:hover { background: #2980b9; }
+        .btn-android { background: #2ecc71; }
+        .btn-android:hover { background: #27ae60; }
+        
+        /* 开发者说明卡片样式 */
+        .dev-note { background-color: #ebf8ff; border: 1px solid #90cdf4; padding: 20px; border-radius: 12px; margin-bottom: 20px; }
+        .dev-note-title { color: #2c5282; font-weight: bold; font-family: 'TibetWildYak'; display: block; margin-bottom: 10px; }
+        .dev-note-content { font-size: 0.92em; color: #2a4365; }
+
+        details { background: #f9f9f9; border-radius: 8px; margin-top: 20px; border: 1px solid #eee; }
+        summary { padding: 15px; cursor: pointer; font-weight: bold; color: #34495e; list-style: none; display: flex; justify-content: space-between; align-items: center; font-family: 'TibetWildYak', sans-serif; }
+        summary::after { content: "➕ ནང་འཇུག་བཟོ་སྟངས། / 点击展开教程"; font-size: 0.8em; background: #3498db; color: white; padding: 4px 10px; border-radius: 4px; }
+        
+        .tutorial-container { display: flex; gap: 20px; padding: 15px; border-top: 1px solid #eee; background: white; border-radius: 0 0 8px 8px; }
+        .lang-column { flex: 1; min-width: 0; }
+        .lang-tibet { text-align: left; color: #2980b9; font-size: 1.1em; border-right: 1px solid #eee; padding-right: 15px; font-family: 'TibetWildYak'; }
+        .lang-chinese { text-align: left; color: #444; font-size: 0.95em; padding-left: 5px; }
+        .step-title { font-weight: bold; color: #e67e22; margin-top: 10px; display: block; }
+        
+        footer { text-align: center; padding: 25px 15px; color: #2980b9; font-size: 0.75em; font-family: 'TibetWildYak', sans-serif; }
+
+        @media (max-width: 600px) {
+            .tutorial-container { flex-direction: column; }
+            .lang-tibet { border-right: none; border-bottom: 1px dashed #ccc; padding-bottom: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <span class="tibet-main-title">ཁམས་པ་ཚང་བོད་ཡིག་ཨང་བསྒྱུར་མཉེན་ཆས།</span>
+    <h1>康巴仓藏文转换工具</h1>
+
+    <div class="card" style="background-color: #ebf8ff; border: 1px solid #90cdf4;">
+        <span class="dev-note-title" style="color: #2c5282; font-weight: bold; font-family: 'TibetWildYak'; display: block; margin-bottom: 10px;">བཟོ་མཁན་གྱི་གསལ་བཤད། / 开发者特别说明</span>
+        
+        <div class="dev-note-content" style="font-size: 0.95em; color: #2a4365; line-height: 1.8;">
+            <div style="font-family: 'TibetWildYak'; border-bottom: 1px dashed #90cdf4; padding-bottom: 10px; margin-bottom: 10px;">
+                <p><strong>པར་གཞི་གསར་སྒྱུར་སྐོར། </strong> དྲྭ་ཐོག་གི་ཨང་བསྒྱུར་ཡོ་བྱད་ལ་བཤར་ཆས་དང་དྲྭ་རྒྱའི་རྐྱེན་གྱིས་བརྟན་པོ་མེད་པའི་གནས་ཚུལ་འབྱུང་སྲིད་པས། བེད་སྤྱོད་གཏོང་མཁན་རྣམས་ལ་སྟབས་བདེ་དང་བརྟན་པོའི་ཞབས་ཞུ་འདོན་ཆེད། བཟོ་མཁན་གྱིས་ཆེད་དུ་<strong>ཀློག་ཀླད་དང་ཁ་པར་ནང་</strong>སྒྲིག་འཇུག་བྱེད་ཆོག་པའི་པར་གཞི་གསར་བཟོ་བྱས་ཡོད།</p>
+                <p><strong>iOS (iPhone/iPad) པར་གཞིའི་སྐོར། </strong> ཀུ་ཤུ་གཞུང་ཕྱོགས་ཀྱི་ཚོང་རའི་ནང་ཞུགས་པར་འགྲོ་གྲོན་མཐོ་བས། བཟོ་མཁན་སྒེར་གྱི་ངོས་ནས་འགྲོ་གྲོན་དེ་དག་གཏོང་ཐབས་བྲལ་བས་ད་ལྟའི་ཆར་ iPhone ཀུ་ཤུ་ཁ་པར་དང་། iPad འཆང་བཟུང་ནང་སྒྲིག་འཇུག་བྱེད་ཆོག་པའི་མཉེན་ཆས་མཁོ་འདོན་བྱེད་ཐབས་མ་བྱུང་བར་དགོངས་དག་ཞུ།</p>
+            </div>
+
+            <div>
+                <p><strong>关于版本升级：</strong> 因网页版转换工具受浏览器兼容性及网络环境影响，存在一定的运行不稳定性和技术依赖。为了提供更高效、更稳定的转码体验，开发者特意开发了<strong>本地桌面版及移动版</strong>供大家下载安装使用。</p>
+                <p><strong>关于 iOS (iPhone/iPad) 版本：</strong> 由于苹果官方 App Store 的上架准入门槛及持续维护费用较高，开发者作为个人公益开发，暂无力承担相关商业成本。因此，目前暂时无法提供适用于 iPhone 和 iPad 的直接安装版，深表遗憾，敬请谅解。</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="browser-tip">
+        <span>⚠️ ཡིན་གཅིག་དང་ཡོད་ཀྱི་དྲྭ་བཤེར་བཤར་ཆས་ཐོག་ནས་ཁ་ཕྱེ་རོགས།</span>
+        <span>⚠️ 请务必使用默认浏览器打开</span>
+    </div>
+
+    <div class="card">
+        <span class="tibet-header">ཨན་དྲོལ་ཁ་པར་ནང་སྤྱོད་ཆོག་པའི་མཉེན་ཆས། (Android)</span>
+        <h2>🤖 安卓手机版</h2>
+        <div class="btn-group">
+            <a href="https://github.com/kangba1376/kham-converter/releases/download/v2026.03.02/Himalaya2Pandi_Android.apk" class="btn btn-android">
+                <span>ཧི་མ་ལ་ཡ། >> པནྜི་ཏ།  ཕབ་ལེན།</span>
+                喜马拉雅 >> 班智达 下载
+            </a>
+            <a href="https://github.com/kangba1376/kham-converter/releases/download/v2026.03.02/Pandi2Himalaya_Android.apk" class="btn btn-android">
+                <span>པནྜི་ཏ། >> ཧི་མ་ལ་ཡ།  ཕབ་ལེན།</span>
+                班智达 >> 喜马拉雅 下载
+            </a>
+        </div>
+        <details>
+            <summary>安卓安装指南</summary>
+            <div class="tutorial-container">
+                <div class="lang-column lang-tibet">
+                    <span class="step-title">༡. ཆོག་མཆན་སྤྲོད་པ།</span> མཉེན་ཆས་ཕབ་ལེན་བྱེད་སྐབས་ [ཆོག་མཆན་སྤྲོད་པ་] འདེམས་དགོས།<br>
+                    <span class="step-title">༢. དྭངས་གཙང་མ་ལག་སྒོ་རྒྱག་པ།</span> [སྒྲིག་བཀོད་] -> [དྭངས་གཙང་མ་ལག་] ནང་དུ་འཛུལ་ནས་སྒོ་རྒྱག་དགོས།
+                </div>
+                <div class="lang-column lang-chinese">
+                    <span class="step-title">1. 允许安装</span> 下载时若提示风险，请务必选择“允许”或“仍然安装”。<br>
+                    <span class="step-title">2. 关闭纯净模式</span> 华为等手机需在设置中退出“纯净模式”方可正常安装。
+                </div>
+            </div>
+        </details>
+    </div>
+
+    <div class="card">
+        <span class="tibet-header">Apple ཀུ་ཤུ་གློག་ཀླད་ནང་སྤྱོད་ཆོག་པའི་མཉེན་ཆས། (macOS)</span>
+        <h2>🍎 苹果电脑版</h2>
+        <div class="btn-group">
+            <a href="https://github.com/kangba1376/kham-converter/releases/download/v2026.03.02/Himalaya2Pandi_Mac.dmg" class="btn" style="background:#34495e;">
+                <span>ཧི་མ་ལ་ཡ། >> པནྜི་ཏ།  ཕབ་ལེན།</span>
+                喜马拉雅 >> 班智达 下载
+            </a>
+            <a href="https://github.com/kangba1376/kham-converter/releases/download/v2026.03.02/Pandi2Himalaya_Mac.dmg" class="btn" style="background:#34495e;">
+                <span>པནྜི་ཏ། >> ཧི་མ་ལ་ཡ།  ཕབ་ལེན།</span>
+                班智达 >> 喜马拉雅 下载
+            </a>
+        </div>
+    </div>
+
+    <div class="card">
+        <span class="tibet-header">Windows སྒེའུ་ཁུང་མ་ལག་སྟེང་སྤྱོད་ཆོག་པའི་མཉེན་ཆས། (Windows)</span>
+        <h2>💻 电脑版 (64位)</h2>
+        <div class="btn-group">
+            <a href="https://github.com/kangba1376/kham-converter/releases/download/v2026.03.02/Himalaya2Pandi_Win.exe" class="btn">
+                <span>ཧི་མ་ལ་ཡ། >> པནྜི་ཏ།  ཕབ་ལེན།</span>
+                喜马拉雅 >> 班智达 下载
+            </a>
+            <a href="https://github.com/kangba1376/kham-converter/releases/download/v2026.03.02/Pandi2Himalaya_Win.exe" class="btn">
+                <span>པནྜི་ཏ། >> ཧི་མ་ལ་ཡ།  ཕབ་ལེན།</span>
+                班智达 >> 喜马拉雅 下载
+            </a>
+        </div>
+    </div>
+
+    <div class="card" style="background-color: #fff5f5; border: 1px solid #feb2b2;">
+        <div class="tutorial-container" style="background: transparent; padding: 0; border-top:none;">
+            <div class="lang-column lang-tibet" style="color: #742a2a; border-right: 1px solid #feb2b2; font-size:0.9em;">
+                <strong>འགན་སེལ་གསལ་བཤད།</strong><br>
+                ཏང་དང་རྒྱལ་ཁབ་ཀྱི་ཁྲིམས་ལུགས་དང་འགལ་བའི་ཡིག་ཆའི་རིགས་གཏན་ནས་བརྗེ་བསྒྱུར་མི་ཆོག།
+            </div>
+            <div class="lang-column lang-chinese" style="color: #742a2a; font-size:0.85em;">
+                <strong>免责声明：</strong><br>
+                严禁使用本工具转换任何违反党和国家法律法规的文件内容。一旦下载即视为接受本声明。
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        © ༢༠༢༦ ཁམས་པ་ཚང་། KHAM PA TSANG ༡༧༧༡༡༩༥༥༥༥༤
+    </footer>
+
+</body>
+</html>
