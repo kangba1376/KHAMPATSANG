@@ -9,7 +9,6 @@
         body { font-family: 'TibetWildYak', -apple-system, sans-serif; line-height: 1.6; color: #333; max-width: 850px; margin: 0 auto; padding: 20px; background-color: #f4f7f6; }
         .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; text-align: center; }
         
-        /* 标题区样式 - 藏语在上 */
         .title-group { margin-bottom: 25px; }
         .tibet-title { font-size: 1.6em; color: #2980b9; font-weight: bold; font-family: 'TibetWildYak'; display: block; margin-bottom: 5px; }
         .cn-title { font-size: 1.4em; color: #2c3e50; font-weight: bold; display: block; }
@@ -20,12 +19,49 @@
         .note-title-inline { font-weight: bold; font-size: 1.1em; display: block; margin-bottom: 8px; text-align: center; }
         .tibet-text { font-family: 'TibetWildYak'; border-bottom: 1px solid #bbdefb; padding-bottom: 12px; margin-bottom: 12px; }
 
-        /* 下载按钮 */
-        .btn-main { display: block; background: #3498db; color: white; text-decoration: none; padding: 18px; border-radius: 10px; font-weight: bold; font-size: 1.2em; transition: 0.3s; margin: 25px 0; }
+        /* --- 下载按钮及手指动画特效 --- */
+        .btn-main { 
+            display: block; 
+            background: #3498db; 
+            color: white; 
+            text-decoration: none; 
+            padding: 22px 20px; 
+            border-radius: 10px; 
+            font-weight: bold; 
+            font-size: 1.3em; 
+            transition: 0.3s; 
+            margin: 35px 0; 
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            animation: button-pulse 2s infinite ease-in-out;
+            text-align: center;
+        }
+        
         .btn-main:hover { background: #2980b9; transform: translateY(-2px); }
         .btn-main span { display: block; font-family: 'TibetWildYak'; font-size: 1.1em; margin-bottom: 5px; }
 
-        /* 苹果商城说明 - 暗灰色（降低视觉优先级） */
+        /* 手指图标样式：紧跟文字末尾 + 放大 */
+        .finger-icon {
+            display: inline-block;
+            font-size: 2.2em; /* 显著放大手指 */
+            margin-left: 15px; /* 与文字保持恰当距离 */
+            vertical-align: middle; /* 与文字垂直居中对齐 */
+            line-height: 1;
+            pointer-events: none;
+            animation: finger-tap 1s infinite;
+        }
+
+        /* 更有节奏感的点击动画 */
+        @keyframes finger-tap {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(0.85) translateY(2px); }
+        }
+
+        @keyframes button-pulse {
+            0%, 100% { box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3); }
+            50% { box-shadow: 0 4px 25px rgba(52, 152, 219, 0.6); }
+        }
+
+        /* 苹果商城说明 - 暗灰色 */
         .ios-notice { background-color: #eeeeee; border: 1px solid #d6d6d6; padding: 15px; border-radius: 10px; text-align: left; opacity: 0.8; }
         .ios-notice-title { color: #616161; font-size: 0.9em; font-weight: bold; font-family: 'TibetWildYak'; display: block; margin-bottom: 8px; }
         .ios-notice-content { font-size: 0.85em; color: #757575; line-height: 1.6; }
@@ -55,7 +91,7 @@
 
         <a href="https://kangba1376.github.io/kham-converter/" class="btn-main">
             <span>འདིར་མནན་ནས་ཕབ་ལེན་ལྟེ་གནས་སུ་ཕེབས།</span>
-            点击进入：全平台软件下载中心
+            点击进入：全平台软件下载中心<div class="finger-icon">👆</div>
         </a>
 
         <div class="ios-notice">

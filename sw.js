@@ -1,4 +1,4 @@
-const CACHE_NAME = 'soul-day-2026-03-02-17:30'; // 自动更新为当前北京时间
+const CACHE_NAME = 'soul-day-2026-03-02-18:05'; // 自动更新为当前北京时间
 
 self.addEventListener('install', (e) => {
   self.skipWaiting();
