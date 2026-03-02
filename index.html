@@ -8,43 +8,47 @@
         @font-face { font-family: 'TibetWildYak'; src: url('TibetWildYak.ttf') format('truetype'); }
         body { font-family: 'TibetWildYak', -apple-system, sans-serif; line-height: 1.6; color: #333; max-width: 850px; margin: 0 auto; padding: 20px; background-color: #f4f7f6; }
         .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; text-align: center; }
-        .tibet-title { font-size: 1.6em; color: #2980b9; font-weight: bold; font-family: 'TibetWildYak'; display: block; margin-bottom: 10px; }
-        h1 { font-size: 1.4em; color: #2c3e50; margin-bottom: 25px; }
         
-        /* 开发者说明卡片 */
-        .dev-note { background-color: #ebf8ff; border: 1px solid #90cdf4; padding: 20px; border-radius: 12px; margin-bottom: 20px; text-align: left; }
-        .dev-note-title { color: #2c5282; font-weight: bold; font-family: 'TibetWildYak'; display: block; margin-bottom: 10px; text-align: center;}
-        .dev-note-content { font-size: 0.92em; color: #2a4365; line-height: 1.8; }
-        .tibet-text { font-family: 'TibetWildYak'; border-bottom: 1px dashed #90cdf4; padding-bottom: 10px; margin-bottom: 10px; }
+        /* 标题区样式 - 藏语在上 */
+        .title-group { margin-bottom: 25px; }
+        .tibet-title { font-size: 1.6em; color: #2980b9; font-weight: bold; font-family: 'TibetWildYak'; display: block; margin-bottom: 5px; }
+        .cn-title { font-size: 1.4em; color: #2c3e50; font-weight: bold; display: block; }
+        
+        /* 版本更新说明 - 亮蓝色（高亮显示） */
+        .update-note { background-color: #e3f2fd; border: 1px solid #64b5f6; padding: 20px; border-radius: 12px; margin-bottom: 20px; text-align: left; }
+        .note-content { font-size: 1em; color: #0d47a1; line-height: 1.8; }
+        .note-title-inline { font-weight: bold; font-size: 1.1em; display: block; margin-bottom: 8px; text-align: center; }
+        .tibet-text { font-family: 'TibetWildYak'; border-bottom: 1px solid #bbdefb; padding-bottom: 12px; margin-bottom: 12px; }
 
         /* 下载按钮 */
-        .btn-main { display: block; background: #3498db; color: white; text-decoration: none; padding: 18px; border-radius: 10px; font-weight: bold; font-size: 1.2em; transition: 0.3s; margin: 20px 0; }
+        .btn-main { display: block; background: #3498db; color: white; text-decoration: none; padding: 18px; border-radius: 10px; font-weight: bold; font-size: 1.2em; transition: 0.3s; margin: 25px 0; }
         .btn-main:hover { background: #2980b9; transform: translateY(-2px); }
         .btn-main span { display: block; font-family: 'TibetWildYak'; font-size: 1.1em; margin-bottom: 5px; }
 
-        /* 免责声明卡片 - 红色警示风格 */
-        .disclaimer-card { background-color: #fff5f5; border: 1px solid #feb2b2; padding: 20px; border-radius: 12px; text-align: left; margin-top: 20px; }
-        .disclaimer-title { color: #c53030; font-weight: bold; font-family: 'TibetWildYak'; display: block; margin-bottom: 10px; text-align: center; }
-        .disclaimer-content { font-size: 0.88em; color: #742a2a; line-height: 1.7; }
+        /* 苹果商城说明 - 暗灰色（降低视觉优先级） */
+        .ios-notice { background-color: #eeeeee; border: 1px solid #d6d6d6; padding: 15px; border-radius: 10px; text-align: left; opacity: 0.8; }
+        .ios-notice-title { color: #616161; font-size: 0.9em; font-weight: bold; font-family: 'TibetWildYak'; display: block; margin-bottom: 8px; }
+        .ios-notice-content { font-size: 0.85em; color: #757575; line-height: 1.6; }
         
-        footer { text-align: center; padding: 25px 15px; color: #2980b9; font-size: 0.75em; font-family: 'TibetWildYak'; }
+        footer { text-align: center; padding: 25px 15px; color: #9e9e9e; font-size: 0.75em; font-family: 'TibetWildYak'; }
     </style>
 </head>
 <body>
     <div class="card">
-        <span class="tibet-title">ཁམས་པ་ཚང་བོད་ཡིག་ཨང་བསྒྱུར་མཉེན་ཆས།</span>
-        <h1>网站已全面升级为本地版</h1>
+        <div class="title-group">
+            <span class="tibet-title">ཁམས་པ་ཚང་བོད་ཡིག་ཨང་བསྒྱུར།</span>
+            <span class="cn-title">康巴仓藏文转换</span>
+        </div>
 
-        <div class="dev-note">
-            <span class="dev-note-title">བཟོ་མཁན་གྱི་གསལ་བཤད། / 开发者特别说明</span>
-            <div class="dev-note-content">
+        <div class="update-note">
+            <div class="note-content">
                 <div class="tibet-text">
-                    <p><strong>པར་གཞི་གསར་སྒྱུར་སྐོར། </strong> དྲྭ་ཐོག་གི་ཨང་བསྒྱུར་ཡོ་བྱད་ལ་བཤར་ཆས་དང་དྲྭ་རྒྱའི་རྐྱེན་གྱིས་བརྟན་པོ་མེད་པའི་གནས་ཚུལ་འབྱུང་སྲིད་པས། བཟོ་མཁན་གྱིས་ཆེད་དུ་<strong>ས་གནས་ཀློག་ཀླད་དང་ཁ་པར་ནང་</strong>སྒྲིག་འཇུག་བྱེད་ཆོག་པའི་པར་གཞི་གསར་བཟོ་བྱས་ཡོད།</p>
-                    <p><strong>iOS (iPhone/iPad) པར་གཞིའི་སྐོར། </strong> ཀུ་ཤུ་གཞུང་ཕྱོགས་ཀྱི་ཚོང་རའི་ནང་ཞུགས་པར་འགྲོ་གྲོན་མཐོ་བས། བཟོ་མཁན་སྒེར་གྱི་ངོས་ནས་འགྲོ་གྲོན་དེ་དག་གཏོང་ཐབས་བྲལ་བས་ད་ལྟའི་ཆར་ iPhone དང་ iPad ནང་སྒྲིག་འཇུག་བྱེད་ཆོག་པའི་མཉེན་ཆས་མཁོ་འདོན་བྱེད་ཐབས་མ་བྱུང་བར་དགོངས་དག་ཞུ།</p>
+                    <span class="note-title-inline">པར་གཞི་གསར་སྒྱུར་སྐོར།</span>
+                    དྲྭ་ཐོག་གི་ཨང་བསྒྱུར་ཡོ་བྱད་ལ་བཤར་ཆས་དང་དྲྭ་རྒྱའི་རྐྱེན་གྱིས་བརྟན་པོ་མེད་པའི་གནས་ཚུལ་འབྱུང་སྲིད་པས། ཆེད་དུ་ཀློག་ཀླད་དང་ཁ་པར་ནང་སྒྲིག་འཇུག་བྱེད་ཆོག་པའི་པར་གཞི་གསར་བཟོ་བྱས་ཡོད་དེ། སྒེའུ་ཁུང་མ་ལག་དང་། ཨན་དྲོལ་ཁ་པར་རིགས། ཀུ་ཤུ་གློག་ཀླད་བཅས་ལ་ཐད་ཀར་ནང་འཇུག་གནང་ཆོག།
                 </div>
                 <div>
-                    <p><strong>关于版本升级：</strong> 因网页版受浏览器兼容性及网络环境影响，存在一定的不稳定性。为了提供更高效、更稳定的转码体验，开发者特意将其开发为<strong>本地桌面版及移动版</strong>供大家下载安装使用。</p>
-                    <p><strong>关于 iOS 版本：</strong> 由于苹果官方 App Store 的上架及维护费用较高，开发者作为个人公益开发，暂无力承担。因此，目前暂时无法提供适用于 iPhone 和 iPad 的软件，深表遗憾，敬请谅解。</p>
+                    <span class="note-title-inline">关于版本升级：</span>
+                    因网页版受浏览器兼容性及网络环境影响，存在一定的不稳定性。为了提供更高效、更稳定的转码体验，开发者特意将其开发为本地桌面版及移动版供大家下载安装使用。
                 </div>
             </div>
         </div>
@@ -54,9 +58,19 @@
             点击进入：全平台软件下载中心
         </a>
 
-        <div class="disclaimer-card">
-
+        <div class="ios-notice">
+            <span class="ios-notice-title">iOS (iPhone/iPad) པར་གཞིའི་སྐོར། / 关于 iOS 版本</span>
+            <div class="ios-notice-content">
+                <div style="margin-bottom: 8px; border-bottom: 1px solid #e0e0e0; padding-bottom: 8px;">
+                    ཀུ་ཤུ་གཞུང་ཕྱོགས་ཀྱི་ཚོང་རའི་ནང་ཞུགས་པར་འགྲོ་གྲོན་མཐོ་བས། བཟོ་མཁན་སྒེར་གྱི་ངོས་ནས་འགན་ཁུར་ཐབས་བྲལ། དེར་བརྟེན་ད་ལྟའི་ཆར་ iPhone དང་ iPad ནང་སྒྲིག་འཇུག་བྱེད་ཆོག་པའི་མཉེན་ཆས་མཁོ་འདོན་བྱེད་ཐབས་མ་བྱུང་བར་དགོངས་དག་ཞུ།
+                </div>
+                <div>
+                    由于苹果官方 App Store 的上架及维护费用较高，开发者作为个人公益开发，暂无力承担。因此目前暂时无法提供适用于 iPhone 和 iPad 的安装包，敬请谅解。
+                </div>
+            </div>
+        </div>
     </div>
+
     <footer>© ༢༠༢༦ ཁམས་པ་ཚང་། KHAM PA TSANG</footer>
 </body>
 </html>
