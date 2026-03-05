@@ -13,13 +13,16 @@
         .tibet-title { font-size: 1.6em; color: #2980b9; font-weight: bold; font-family: 'TibetWildYak'; display: block; margin-bottom: 5px; }
         .cn-title { font-size: 1.4em; color: #2c3e50; font-weight: bold; display: block; }
         
-        /* 版本更新说明 - 亮蓝色（高亮显示） */
+        /* 更新信息：深红色，藏上汉下 */
+        .update-info { margin-top: 10px; color: #8b0000; font-size: 0.85em; line-height: 1.5; }
+        .update-info .tibet { font-family: 'TibetWildYak'; display: block; }
+        .update-info .cn { display: block; }
+
         .update-note { background-color: #e3f2fd; border: 1px solid #64b5f6; padding: 20px; border-radius: 12px; margin-bottom: 20px; text-align: left; }
         .note-content { font-size: 1em; color: #0d47a1; line-height: 1.8; }
         .note-title-inline { font-weight: bold; font-size: 1.1em; display: block; margin-bottom: 8px; text-align: center; }
         .tibet-text { font-family: 'TibetWildYak'; border-bottom: 1px solid #bbdefb; padding-bottom: 12px; margin-bottom: 12px; }
 
-        /* --- 下载按钮及手指动画特效 --- */
         .btn-main { 
             display: block; 
             background: #3498db; 
@@ -39,18 +42,16 @@
         .btn-main:hover { background: #2980b9; transform: translateY(-2px); }
         .btn-main span { display: block; font-family: 'TibetWildYak'; font-size: 1.1em; margin-bottom: 5px; }
 
-        /* 手指图标样式：紧跟文字末尾 + 放大 */
         .finger-icon {
             display: inline-block;
-            font-size: 2.2em; /* 显著放大手指 */
-            margin-left: 15px; /* 与文字保持恰当距离 */
-            vertical-align: middle; /* 与文字垂直居中对齐 */
+            font-size: 2.2em;
+            margin-left: 15px;
+            vertical-align: middle;
             line-height: 1;
             pointer-events: none;
             animation: finger-tap 1s infinite;
         }
 
-        /* 更有节奏感的点击动画 */
         @keyframes finger-tap {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(0.85) translateY(2px); }
@@ -61,7 +62,6 @@
             50% { box-shadow: 0 4px 25px rgba(52, 152, 219, 0.6); }
         }
 
-        /* 苹果商城说明 - 暗灰色 */
         .ios-notice { background-color: #eeeeee; border: 1px solid #d6d6d6; padding: 15px; border-radius: 10px; text-align: left; opacity: 0.8; }
         .ios-notice-title { color: #616161; font-size: 0.9em; font-weight: bold; font-family: 'TibetWildYak'; display: block; margin-bottom: 8px; }
         .ios-notice-content { font-size: 0.85em; color: #757575; line-height: 1.6; }
@@ -74,13 +74,17 @@
         <div class="title-group">
             <span class="tibet-title">ཁམས་པ་ཚང་བོད་ཡིག་ཨང་བསྒྱུར།</span>
             <span class="cn-title">康巴仓藏文转换</span>
+            <div class="update-info">
+                <span class="tibet">པར་གཞི་གསར་བསྒྱུར། ༢༠༢༦-༣-༦ པ་ཤར་གཏོང་ཞུས་ཡོད། (སྐྱོན་ཆ་ཁག་ཅིག་བཅོས་སྒྲིག་བྱས།)</span>
+                <span class="cn">更新版 2026-3-6 已上线 (修复已知BUG)</span>
+            </div>
         </div>
 
         <div class="update-note">
             <div class="note-content">
                 <div class="tibet-text">
                     <span class="note-title-inline">པར་གཞི་གསར་སྒྱུར་སྐོར།</span>
-                    དྲྭ་ཐོག་གི་ཨང་བསྒྱུར་ཡོ་བྱད་ལ་བཤར་ཆས་དང་དྲྭ་རྒྱའི་རྐྱེན་གྱིས་བརྟན་པོ་མེད་པའི་གནས་ཚུལ་འབྱུང་སྲིད་པས། ཆེད་དུ་ཀློག་ཀླད་དང་ཁ་པར་ནང་སྒྲིག་འཇུག་བྱེད་ཆོག་པའི་པར་གཞི་གསར་བཟོ་བྱས་ཡོད་དེ། སྒེའུ་ཁུང་མ་ལག་དང་། ཨན་དྲོལ་ཁ་པར་རིགས། ཀུ་ཤུ་གློག་ཀླད་བཅས་ལ་ཐད་ཀར་ནང་འཇུག་གནང་ཆོག།
+                    དྲྭ་ཐོག་གི་ཨང་བསྒྱུར་ཡོ་བྱད་ལ་བཤར་ཆས་དང་དྲྭ་རྒྱའི་རྐྱེན་གྱིས་བརྟན་པོ་མེད་པའི་གནས་ཚུལ་ཡོང་བར་དོགས་པས། ཆེད་དུ་ཀློག་ཀླད་དང་ཁ་པར་ནང་སྒྲིག་འཇུག་བྱེད་ཆོག་པའི་པར་གཞི་གསར་བཟོ་བྱས་ཡོད་དེ། སྒེའུ་ཁུང་མ་ལག་དང་། ཨན་དྲོལ་ཁ་པར་རིགས། ཀུ་ཤུ་གློག་ཀླད་བཅས་ལ་ཐད་ཀར་ནང་འཇུག་གནང་ཆོག།
                 </div>
                 <div>
                     <span class="note-title-inline">关于版本升级：</span>
