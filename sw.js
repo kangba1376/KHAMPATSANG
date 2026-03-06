@@ -1,4 +1,4 @@
-const CACHE_NAME = 'soul-day-2026-03-06-01:45'; // 已更新为当前北京时间
+const CACHE_NAME = 'soul-day-2026-03-06-09:00'; // 已更新为当前北京时间
 
 self.addEventListener('install', (e) => {
   // 强制跳过等待，让新脚本立即生效
