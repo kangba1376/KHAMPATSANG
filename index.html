@@ -13,59 +13,72 @@
         .title-group { margin-bottom: 25px; }
         .tibet-title { font-size: 1.6em; color: #2980b9; font-weight: bold; font-family: 'TibetWildYak'; display: block; margin-bottom: 5px; }
         .cn-title { font-size: 1.4em; color: #2c3e50; font-weight: bold; display: block; }
+        .title-divider { height: 2px; background: #0b3b8a; border-radius: 2px; margin: 14px 0 0 0; }
         
         /* 更新信息：深红色，藏上汉下 */
-        .update-info { margin-top: 10px; color: #8b0000; font-size: 0.85em; line-height: 1.5; }
+        .update-info { margin-top: 18px; color: #8b0000; font-size: 0.85em; line-height: 1.5; }
         .update-info .tibet { font-family: 'TibetWildYak'; display: block; }
-        .update-info .cn { display: block; }
+        .update-info .cn { display: block; margin-top: 8px; }
 
-        .update-note { background-color: #e3f2fd; border: 1px solid #64b5f6; padding: 20px; border-radius: 12px; margin-bottom: 20px; text-align: left; }
-        .note-content { font-size: 1em; color: #0d47a1; line-height: 1.8; }
+        .browser-tip { text-align: center; color: #0b3b8a; font-size: 0.95em; font-weight: bold; margin: 12px 0 0 0; padding: 0; background: transparent; border: none; box-shadow: none; }
+
+        .update-note { background-color: #e7f1ff; border: 1px solid #0b3b8a; border-top: 6px solid #0b3b8a; padding: 20px; border-radius: 14px; margin-bottom: 20px; text-align: left; }
+        .note-content { font-size: 1em; color: #0b3b8a; line-height: 1.8; }
         .note-title-inline { font-weight: bold; font-size: 1.1em; display: block; margin-bottom: 8px; text-align: center; }
         .tibet-text { font-family: 'TibetWildYak'; border-bottom: 1px solid #bbdefb; padding-bottom: 12px; margin-bottom: 12px; }
 
         .btn-main { 
             display: block; 
-            background: #3498db; 
-            color: white; 
+            background: #86d6b2; 
+            border: 1px solid #1c6b4c;
+            border-top: 6px solid #1c6b4c;
+            color: #0b3b2a; 
             text-decoration: none; 
             padding: 22px 20px; 
-            border-radius: 10px; 
+            border-radius: 14px; 
             font-weight: bold; 
             font-size: 1.3em; 
             transition: 0.3s; 
             margin: 35px 0; 
-            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            box-shadow: 0 4px 15px rgba(28, 107, 76, 0.22);
             animation: button-pulse 2s infinite ease-in-out;
             text-align: center;
         }
         
-        .btn-main:hover { background: #2980b9; transform: translateY(-2px); }
-        .btn-main span { display: block; font-family: 'TibetWildYak'; font-size: 1.1em; margin-bottom: 5px; }
+        .btn-main:hover { background: #6acb9f; transform: translateY(-2px); }
+        .btn-ti-row { display: flex; justify-content: center; align-items: center; gap: 9px; margin-bottom: 6px; }
+        .btn-main .btn-ti { font-family: 'TibetWildYak'; font-size: 1.1em; line-height: 1.1; }
+        .btn-main .btn-cn { line-height: 1.15; }
+        .btn-main .btn-ti,
+        .btn-main .btn-cn { animation: btn-text-color 2.2s ease-in-out infinite; }
+        .btn-main .finger-icon { animation: finger-tap 1.1s infinite, btn-text-color 2.2s ease-in-out infinite; }
 
         .finger-icon {
             display: inline-block;
-            font-size: 2.2em;
-            margin-left: 15px;
-            vertical-align: middle;
+            font-size: 1.35em;
+            margin-top: 12px;
             line-height: 1;
             pointer-events: none;
-            animation: finger-tap 1s infinite;
+        }
+
+        @keyframes btn-text-color {
+            0%, 100% { color: #0b3b2a; }
+            50% { color: #0f6b4b; }
         }
 
         @keyframes finger-tap {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(0.85) translateY(2px); }
+            0%, 100% { transform: translateY(0); opacity: 0.85; }
+            50% { transform: translateY(4px); opacity: 1; }
         }
 
         @keyframes button-pulse {
-            0%, 100% { box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3); }
-            50% { box-shadow: 0 4px 25px rgba(52, 152, 219, 0.6); }
+            0%, 100% { box-shadow: 0 4px 15px rgba(28, 107, 76, 0.18); }
+            50% { box-shadow: 0 4px 28px rgba(28, 107, 76, 0.38); }
         }
 
-        .ios-notice { background-color: #eeeeee; border: 1px solid #d6d6d6; padding: 15px; border-radius: 10px; text-align: left; opacity: 0.8; }
-        .ios-notice-title { color: #616161; font-size: 0.9em; font-weight: bold; font-family: 'TibetWildYak'; display: block; margin-bottom: 8px; }
-        .ios-notice-content { font-size: 0.85em; color: #757575; line-height: 1.6; }
+        .ios-notice { background-color: #fde8e8; border: 1px solid #8b0000; border-top: 6px solid #8b0000; padding: 15px; border-radius: 14px; text-align: left; }
+        .ios-notice-title { color: #7a3b2e; font-size: 0.9em; font-weight: bold; font-family: 'TibetWildYak'; display: block; margin-bottom: 8px; }
+        .ios-notice-content { font-size: 0.85em; color: #6b3a30; line-height: 1.7; }
         
         footer { text-align: center; padding: 25px 15px; color: #9e9e9e; font-size: 0.75em; font-family: 'TibetWildYak'; }
     </style>
@@ -75,9 +88,11 @@
         <div class="title-group">
             <span class="tibet-title">ཁམས་པ་ཚང་བོད་ཡིག་ཨང་བསྒྱུར།</span>
             <span class="cn-title">康巴仓藏文转换</span>
+            <div class="title-divider"></div>
+            <div class="browser-tip">⚠️ ཡིན་གཅིག་དང་ཡོད་ཀྱི་དྲྭ་བཤེར་བཤར་ཆས་ཐོག་ནས་ཁ་ཕྱེ་རོགས། 请务必使用默认浏览器打开 ⚠️</div>
             <div class="update-info">
-                <span class="tibet">པར་གཞི་གསར་བསྒྱུར། ༢༠༢༦-༣-༡༡ པ་ཤར་གཏོང་ཞུས་ཡོད། (འཆར་ངོས་ལེགས་བཅོས་དང་སྐྱོན་ཆ་ཁག་ཅིག་བཅོས་སྒྲིག་བྱས།)</span>
-                <span class="cn">更新版 2026-3-11 已上线 (界面优化与修复BUG)</span>
+                <span class="tibet">པར་གཞི་གསར་བསྒྱུར། ༢༠༢༦-༣-༡༥ པ་ཤར་གཏོང་ཞུས་ཡོད། (འཆར་ངོས་ལེགས་བཅོས་དང་སྐྱོན་ཆ་ཁག་ཅིག་བཅོས་སྒྲིག་བྱས།)</span>
+                <span class="cn">更新版 2026-3-15 已上线 (界面优化与修复BUG)</span>
             </div>
         </div>
 
@@ -94,22 +109,25 @@
             </div>
         </div>
 
-        <a href="https://kangba1376.github.io/kham-converter/" class="btn-main">
-            <span>འདིར་མནན་ནས་ཕབ་ལེན་ལྟེ་གནས་སུ་ཕེབས།</span>
-            点击进入：全平台软件下载中心<div class="finger-icon">👆</div>
-        </a>
-
         <div class="ios-notice">
             <span class="ios-notice-title">iOS (iPhone/iPad) པར་གཞིའི་སྐོར། / 关于 iOS 版本</span>
             <div class="ios-notice-content">
                 <div style="margin-bottom: 8px; border-bottom: 1px solid #e0e0e0; padding-bottom: 8px;">
-                    ཀུ་ཤུ་གཞུང་ཕྱོགས་ཀྱི་ཚོང་རའི་ནང་ཞུགས་པར་འགྲོ་གྲོན་མཐོ་པོ་སོང་ཙང་། གསར་སྤེལ་བ་སྒེར་གྱི་ངོས་ནས་འགན་ཁུར་ཐབས་བྲལ། དེར་བརྟེན་ད་ལྟའི་ཆར་ iPhone དང་ iPad ནང་སྒྲིག་འཇུག་བྱེད་ཆོག་པའི་མཉེན་ཆས་མཁོ་འདོན་བྱེད་ཐབས་མ་བྱུང་བར་དགོངས་དག་ཞུ། གལ་སྲིད་འདི་སྐོར་རྒྱབ་སྐྱོར་དང་རམ་འདེགས་གནང་མཁན་ཡོད་ན་འོག་གི་ཁ་པར་བརྒྱུད་ནས་འབྲེལ་གནང་རོགས།
+                    ད་ལམ་དྭང་བླངས་ཞལ་འདེབས་གནང་མཁན་དྲ་གྲོགས་ཤིག་གིས་ལོ་གཅིག་གི་ཀུ་ཤུ་ཚོང་རྭའི་ (Apple Store) རིན་པ་བཏང་གནང་བར་བརྟེན། iOS (iPhone/iPad) པར་གཞི་འདི་ཉིད་ App Store ནང་དངོས་སུ་སྤེལ་ཟིན་པས། ཐད་ཀར་མཉེན་ཆས་ཕབ་ལེན་ཁུལ་ནས་（ཁམས་པ་ཚང་།，བོད་ཡིག་ཨང་བསྒྱུར།，康巴仓，藏文编码转换）མིང་འདི་དག་བཤེར་འཚོལ་བྱས་ཏེ་ཕབ་ལེན་གནང་ཆོག གཞན་ཡང་ MacOS (M རིམ་པ་དང་ Intel རིམ་པ་རིགས་གཉིས་ཀར་) པར་གཞིའི་མིང་རྟགས་བཤེར་དཔང་ (Signature Verification) ལེགས་གྲུབ་བྱུང་ཡོད་པས། དྲ་ཚིགས་འདི་ནས་པར་གཞི་རིམ་པ་གསར་ཤོས་དག་ཕབ་ལེན་བྱོས་དང་འཐུས།
                 </div>
                 <div>
-                    由于苹果官方 App Store 的上架及维护费用较高，开发者作为个人公益开发，暂无力承担。因此目前暂时无法提供适用于 iPhone 和 iPad 的安装包，敬请谅解。（如有热心人士愿赞助上架费用，请拨打下方电话联系，万分感谢！）
+                    目前已有热心网友匿名资助了一年的苹果商店（App Store）上架费用，iOS (iPhone/iPad) 版本现已在 App Store 正式发布。您可以直接在应用商店搜索（ཁམས་པ་ཚང་།，བོད་ཡིག་ཨང་བསྒྱུར།，康巴仓，藏文编码转换）关键词进行下载安装。此外，MacOS 通用版本（ 包括M1-M4 及 Intel系列）也已通过签名验证。您可以直接在本网站下载最新版本的安装包。
                 </div>
             </div>
         </div>
+
+        <a href="https://kangba1376.github.io/kham-converter/" class="btn-main">
+            <div class="btn-ti-row">
+                <div class="btn-ti">འདིར་མནན་ནས་ཕབ་ལེན་ལྟེ་གནས་སུ་ཕེབས།</div>
+                <div class="finger-icon">⬇</div>
+            </div>
+            <div class="btn-cn">点击进入：全平台软件下载中心</div>
+        </a>
     </div>
 
     <footer>© ༢༠༢༦ ཁམས་པ་ཚང་། KHAM PA TSANG ༡༧༧༡༡༩༥༥༥༥༤</footer>
