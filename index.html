@@ -64,18 +64,25 @@
         }
 
         .nav-container {
-            width: 1200px;
+            width: 100%;
+            max-width: 1200px;
             display: flex;
+            flex-wrap: nowrap;
             justify-content: center; /* 按钮也居中显示 */
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
+        .nav-container::-webkit-scrollbar { display: none; }
 
         .nav-link {
             text-decoration: none;
             color: #FFD700;
-            font-size: 16px;
-            padding: 0 30px;
+            font-size: clamp(12px, 2.6vw, 16px);
+            padding: 0 clamp(10px, 2.2vw, 30px);
             line-height: 50px;
             transition: background-color 0.3s;
+            white-space: nowrap;
+            flex: 0 0 auto;
         }
 
         /* 鼠标悬停及激活效果 */
