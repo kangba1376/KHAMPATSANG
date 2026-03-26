@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ཁམས་པ་ཚང་བོད་ཡིག་མཉེན་ཆས།</title>
+    <title>བོད་ཡིག་མཉེན་ཆས།</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <style>
         @font-face {
@@ -26,7 +26,6 @@
             padding: 20px;
         }
 
-        /* 1. 顶部标题区域：居中、藏红色、无背景 */
         .top-header {
             padding: 20px 0;
             text-align: center;
@@ -37,7 +36,7 @@
             display: inline-flex;
             flex-direction: column;
             align-items: center;
-            color: #8B0000; /* 藏红色 */
+            color: #8B0000;
         }
 
         .brand-tibetan {
@@ -53,7 +52,6 @@
             font-weight: bold;
         }
 
-        /* 2. 导航栏区域：蓝色贯穿 */
         .nav-bar {
             background-color: #8B0000;
             height: 50px;
@@ -68,7 +66,7 @@
             max-width: 1200px;
             display: flex;
             flex-wrap: nowrap;
-            justify-content: center; /* 按钮也居中显示 */
+            justify-content: center;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
         }
@@ -85,7 +83,6 @@
             flex: 0 0 auto;
         }
 
-        /* 鼠标悬停及激活效果 */
         .nav-link:hover {
             background-color: #660000;
         }
@@ -132,7 +129,7 @@
         .home-app-versions .btn-group { margin-top: 0; }
         @media (max-width: 820px) { .home-apps { grid-template-columns: 1fr; } }
 
-        .home-ios-note { border: 1px solid #0b3b8a; border-top: 6px solid #0b3b8a; border-radius: 14px; background: transparent; padding: 18px; color: #0b3b8a; }
+        .home-ios-note { border: 1px solid #0b3b8a; border-top: 6px solid #0b3b8a; border-radius: 14px; background: transparent; padding: 18px; color: #0b3b8a; margin-top: 18px; }
         .home-ios-title { text-align: center; font-weight: bold; font-size: 1.05em; margin-bottom: 10px; color: #8B0000; font-family: 'TibetWildYak'; }
         .home-ios-body { font-size: 0.84em; line-height: 1.7; }
         .home-ios-body > div + div { margin-top: 10px; }
@@ -167,7 +164,6 @@
         .tutorial-container { display: flex; gap: 20px; padding: 15px; border-top: 1px solid #eee; background: white; border-radius: 0 0 8px 8px; }
         .lang-column { flex: 1; min-width: 0; }
         
-        /* 教程内藏文调整为 0.92em */
         .lang-tibet { text-align: left; color: #2980b9; font-size: 0.92em; border-right: 1px solid #eee; padding-right: 15px; font-family: 'TibetWildYak'; }
         .lang-chinese { text-align: left; color: #444; font-size: 0.95em; padding-left: 5px; }
         .step-title { font-weight: bold; color: #e67e22; margin-top: 10px; display: block; }
@@ -194,8 +190,8 @@
 
     <div class="top-header">
         <div class="brand-box">
-            <span class="brand-tibetan">ཁམས་པ་ཚང་བོད་ཡིག་མཉེན་ཆས།</span>
-            <span class="brand-chinese">康巴仓藏文软件</span>
+            <span class="brand-tibetan">བོད་ཡིག་མཉེན་ཆས་དྲ་བ།</span>
+            <span class="brand-chinese">藏文软件网</span>
         </div>
     </div>
 
@@ -433,26 +429,9 @@
         </details>
     </div>
     </div>
-
-    <div class="card disclaimer-card" style="text-align: left; display: none;">
-        <div class="tutorial-container" style="background: transparent; padding: 0; border-top:none;">
-            <div class="lang-column lang-tibet" style="color: #000; border-right: 1px solid #eee;">
-                <strong>འགན་སེལ་གསལ་བཤད།</strong><br>
-                འདིར་མཁོ་འདོན་ཞུས་པའི་མཉེན་ཆས་ཆ་ཚང་ནི་ (AS IS) "ད་ཡོད་གནས་བབས་ཇི་བཞིན་" རིན་མེད་དུ་མཁོ་འདོན་བྱས་པ་ཞིག་ཡིན་ལ། པནྜི་ཏ་དང་ཧི་མ་ལ་ཡ་བོད་ཡིག་གི་ཨང་བསྒྱུར་ཁོ་ནར་སྤྱོད་རྒྱུར་དམིགས་པ་ཡིན། <br><br>
-                གསར་སྤེལ་བས་མངོན་ལྐོག་བརྒྱུད་རིམ་གང་རུང་ནས་ཁག་ཐེག་གང་ཡང་མི་བྱེད་ལ། མཉེན་ཆས་འདི་བེད་སྤྱོད་བཏང་བ་ལས་བྱུང་བའི་གྱོང་གུན་ནམ་ཁྲིམས་ལུགས་ཀྱི་འགན་འཁྲི་གང་ཡང་མི་ཁུར་བས་དེ་དོན་ཐུགས་འཇགས་དང་། <strong>ཏང་དང་རྒྱལ་ཁབ་ཀྱི་ཁྲིམས་ལུགས་དང་སྒྲིག་སྲོལ་ལས་འགལ་བའི་ཡིག་ཆའི་རིགས་གཏན་ནས་བརྗེ་བསྒྱུར་མི་ཆོག།</strong>
-            </div>
-            <div class="lang-column lang-chinese" style="color: #000;">
-                <strong>免责声明：</strong><br>
-                本处提供的所有系统版本的软件均按“现状”（AS IS）免费提供，仅限用于班智达与喜马拉雅藏文的编码转换。<br><br>
-                开发者不提供任何明示或暗示担保，亦不承担因使用本工具产生的任何直接或间接损失及法律责任。请予周知：<strong>严禁使用本工具转换任何违反党和国家法律法规的文件内容。</strong> 一旦下载使用，即视为您已阅读并接受本声明。
-            </div>
-        </div>
-    </div>
-
-    <!-- 仅在首页底部显示的纯文字免责声明 -->
     <div id="home-disclaimer" style="text-align: center; color: #8B0000; font-size: 0.7em; padding: 20px; line-height: 1.6; max-width: 800px; margin: 40px auto 0 auto; border-top: 1px solid #eee;">
-        <strong>འགན་སེལ་གསལ་བཤད།</strong> འདིར་མཁོ་འདོན་ཞུས་པའི་མཉེན་ཆས་ཆ་ཚང་ནི་ (AS IS) "ད་ཡོད་གནས་བབས་ཇི་བཞིན་" རིན་མེད་དུ་མཁོ་འདོན་བྱས་པ་ཞིག་ཡིན་ལ། གསར་སྤེལ་བས་མངོན་ལྐོག་བརྒྱུད་རིམ་གང་རུང་ནས་ཁག་ཐེག་གང་ཡང་མི་བྱེད་ལ། མཉེན་ཆས་བེད་སྤྱོད་བཏང་བ་ལས་བྱུང་བའི་གྱོང་གུན་ནམ་ཁྲིམས་ལུགས་ཀྱི་འགན་འཁྲི་གང་ཡང་མི་ཁུར།<br><br>
-        <strong>免责声明：</strong> 本处提供的所有系统版本的软件均按“现状”（AS IS）免费提供。开发者不提供任何明示或暗示担保，亦不承担因使用本工具产生的任何直接或间接损失及法律责任。一旦下载使用，即视为您已阅读并接受本声明。
+        <strong>འགན་སེལ་གསལ་བཤད།</strong> དྲ་ཚིགས་འདིར་མཁོ་འདོན་ཞུས་པའི་མཉེན་ཆས་ཆ་ཚང་ནི་ (AS IS) "ད་ཡོད་གནས་བབས་ཇི་བཞིན་" རིན་མེད་དུ་མཁོ་འདོན་བྱས་པ་ཞིག་ཡིན་ལ། གསར་སྤེལ་བས་མངོན་ལྐོག་བརྒྱུད་རིམ་གང་རུང་ནས་ཁག་ཐེག་གང་ཡང་མི་བྱེད་ལ། མཉེན་ཆས་བེད་སྤྱོད་བཏང་བ་ལས་བྱུང་བའི་གྱོང་གུན་ནམ་ཁྲིམས་ལུགས་ཀྱི་འགན་འཁྲི་གང་ཡང་མི་ཁུར།<br>
+        免责声明：</strong> 本网站提供的所有系软件均按“现状”（AS IS）免费提供。开发者不提供任何明示或暗示担保，亦不承担因使用本工具产生的任何直接或间接损失及法律责任。一旦下载使用，即视为您已阅读并接受本声明。
     </div>
 
     <footer>
