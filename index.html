@@ -229,15 +229,15 @@
                 </summary>
                 <div class="home-app-versions">
                     <div class="btn-group">
-                        <a href="javascript:void(0)" class="btn btn-android" onclick="navigateTo('android')">
+                        <a href="javascript:void(0)" class="btn btn-android" onclick="navigateTo('android', 'khamvert')">
                             <span>ཨན་དྲོལ་པར་གཞི།</span>
                             安卓版本
                         </a>
-                        <a href="javascript:void(0)" class="btn btn-win" onclick="navigateTo('win')">
+                        <a href="javascript:void(0)" class="btn btn-win" onclick="navigateTo('win', 'khamvert')">
                             <span>Windowsཔར་གཞི།</span>
                             Windows版本
                         </a>
-                        <a href="javascript:void(0)" class="btn btn-mac" onclick="navigateTo('mac')">
+                        <a href="javascript:void(0)" class="btn btn-mac" onclick="navigateTo('mac', 'khamvert')">
                             <span>ཀུ་ཤུའི་པར་གཞི།</span>
                             苹果版本
                         </a>
@@ -257,7 +257,7 @@
                 </summary>
                 <div class="home-app-versions">
                     <div class="btn-group">
-                        <a href="javascript:void(0)" class="btn btn-android" onclick="navigateTo('android')">
+                        <a href="javascript:void(0)" class="btn btn-android" onclick="navigateTo('android', 'soulday')">
                             <span>ཨན་དྲོལ་པར་གཞི།</span>
                             安卓版本
                         </a>
@@ -280,7 +280,7 @@
     </div>
 
     <div id="download-content" class="card-container" style="display: none;">
-            <div class="card platform-card filter-android">
+            <div class="card platform-card filter-android" data-app="khamvert">
                 <div class="platform-top-icon"><img src="KHAMvert.PNG" alt="KHAMvert" width="62" height="62"></div>
         <span class="tibet-header">ཨན་དྲོལ་ཁ་པར་ནང་སྤྱོད་ཆོག་པའི་མཉེན་ཆས། (Android)</span>
         <h2>🤖 KHAMvert 安卓手机版（安卓/鸿蒙通用）</h2>
@@ -319,7 +319,7 @@
         </details>
     </div>
 
-    <div class="card platform-card filter-mac">
+    <div class="card platform-card filter-mac" data-app="khamvert">
         <div class="platform-top-icon"><img src="KHAMvert.PNG" alt="KHAMvert" width="62" height="62"></div>
         <span class="tibet-header">Apple ཀུ་ཤུ་གློག་ཀླད་ནང་སྤྱོད་ཆོག་པའི་མཉེན་ཆས། (macOS)</span>
         <h2>🍎 KHAMvert 苹果电脑版（M 系 / Intel 通用）</h2>
@@ -361,7 +361,7 @@
         </details>
     </div>
 
-    <div class="card platform-card filter-win">
+    <div class="card platform-card filter-win" data-app="khamvert">
         <div class="platform-top-icon"><img src="KHAMvert.PNG" alt="KHAMvert" width="62" height="62"></div>
         <span class="tibet-header">Windows སྒེའུ་ཁུང་མ་ལག་སྟེང་སྤྱོད་ཆོག་པའི་མཉེན་ཆས། </span>
         <h2>💻 KHAMvert Windows 电脑版（64位通用）</h2>
@@ -395,8 +395,8 @@
             </div>
         </details>
     </div>
-    <div class="card platform-card android-special filter-android">
-        <div class="android-top-icon"><img src="Soul%20Day.PNG" alt="Soul Day" width="62" height="62"></div>
+    <div class="card platform-card android-special filter-android" data-app="soulday">
+        <div class="platform-top-icon"><img src="Soul%20Day.PNG" alt="Soul Day" width="62" height="62"></div>
         <span class="tibet-header">ཨན་དྲོལ་ཁ་པར་ནང་སྤྱོད་ཆོག་པའི་མཉེན་ཆས། (Android)</span></span>
         <h2>🤖 Soul Day 安卓手机版（安卓/鸿蒙通用）</span></h2>
         <div class="btn-group">
@@ -444,20 +444,22 @@
     </footer>
 
     <script>
-        function navigateTo(platform) {
+        function navigateTo(platform, appId) {
             const link = document.querySelector('.nav-link[data-platform="' + platform + '"]');
             if (link) {
-                filterContent(platform, link);
+                filterContent(platform, link, appId);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
 
-        function filterContent(platform, element) {
+        function filterContent(platform, element, appId = null) {
 
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('active');
             });
-            element.classList.add('active');
+            if (element) {
+                element.classList.add('active');
+            }
 
             const homeContent = document.getElementById('home-content');
             const homeDisclaimer = document.getElementById('home-disclaimer');
@@ -482,7 +484,10 @@
                 if (platform === 'all') {
                     card.style.display = 'none'; 
                 } else {
-                    if (card.classList.contains('filter-' + platform)) {
+                    const matchPlatform = card.classList.contains('filter-' + platform);
+                    const matchApp = appId ? card.getAttribute('data-app') === appId : true;
+                    
+                    if (matchPlatform && matchApp) {
                         card.style.display = 'flex';
                     } else {
                         card.style.display = 'none';
